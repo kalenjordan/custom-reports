@@ -13,7 +13,10 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
 
     protected function _prepareCollection()
     {
+        /** @var $collection Clean_SqlReports_Model_Mysql4_Report_Collection */
         $collection = Mage::getModel('cleansql/report')->getCollection();
+        $collection->setOrder('title', 'ASC');
+
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
