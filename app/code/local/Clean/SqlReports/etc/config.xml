@@ -12,7 +12,11 @@
                 <class>Clean_SqlReports_Block</class>
             </cleansql>
         </blocks>
-
+        <helpers>
+            <cleansql>
+                <class>Clean_SqlReports_Helper</class>
+            </cleansql>
+        </helpers>
         <models>
             <cleansql>
                 <class>Clean_SqlReports_Model</class>

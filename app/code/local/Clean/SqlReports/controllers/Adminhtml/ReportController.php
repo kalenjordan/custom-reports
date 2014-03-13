@@ -102,4 +102,14 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
         $grid = $this->getLayout()->createBlock('cleansql/adminhtml_report_view_grid');
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
+
+    protected function _isAllowed()
+    {
+        $isView = in_array($this->getRequest()->getActionName(), array('index', 'view'));
+
+        /** @var $helper Clean_SqlReport_Helper_Data */
+        $helper = Mage::helper('cleansql');
+
+        return ($isView ? $helper->getAllowView() : $helper->getAllowEdit());
+    }
 }
