@@ -91,4 +91,15 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
         $this->_report = $report;
         return $this->_report;
     }
+
+    public function exportCsvAction()
+    {
+        Mage::register('current_report', $this->_getReport());
+        $reportTitle = $this->_getReport()->getTitle();
+        $fileName = strtolower(str_replace(' ', '_', $reportTitle)) . '.csv';
+
+        /** @var Clean_SqlReports_Block_Adminhtml_Report_Grid $grid */
+        $grid = $this->getLayout()->createBlock('cleansql/adminhtml_report_view_grid');
+        $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
+    }
 }
