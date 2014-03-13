@@ -9,7 +9,13 @@
         </reference>
         <reference name="content">
             <block type="cleansql/adminhtml_report" name="report">
-                <block type="cleansql/adminhtml_report_grid" name="report.grid" as="grid" />
+                <block type="cleansql/adminhtml_report_grid" name="report.grid" as="grid">
+                    <action method="setColumnRenderers">
+                        <renderers>
+                            <action>cleansql/adminhtml_widget_grid_column_renderer_action</action>
+                        </renderers>
+                    </action>
+                </block>
             </block>
         </reference>
     </admin_cleansql_adminhtml_report_index>

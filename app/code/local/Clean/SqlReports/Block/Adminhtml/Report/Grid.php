@@ -67,6 +67,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
                 'filter'     => false,
                 'type'       => 'action',
                 'actions'    => $actions,
+                'link_limit' => 2,
             )
         );
 
