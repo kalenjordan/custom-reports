@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Clean_SqlReports>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends></depends>
+        </Clean_SqlReports>
+    </modules>
+</config>

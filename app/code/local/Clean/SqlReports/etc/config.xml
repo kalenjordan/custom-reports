@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Clean_SqlReports>
+            <version>0.1.0</version>
+        </Clean_SqlReports>
+    </modules>
+
+    <global>
+        <blocks>
+            <cleansql>
+                <class>Clean_SqlReports_Block</class>
+            </cleansql>
+        </blocks>
+
+        <models>
+            <cleansql>
+                <class>Clean_SqlReports_Model</class>
+                <resourceModel>cleansql_mysql4</resourceModel>
+            </cleansql>
+            <cleansql_mysql4>
+                <class>Clean_SqlReports_Model_Mysql4</class>
+                <entities>
+                    <report>
+                        <table>cleansql_report</table>
+                    </report>
+                </entities>
+            </cleansql_mysql4>
+        </models>
+
+        <resources>
+            <cleansql_setup>
+                <setup>
+                    <module>Clean_SqlReports</module>
+                    <class>Clean_Core_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </cleansql_setup>
+            <cleansql_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </cleansql_write>
+            <cleansql_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </cleansql_read>
+        </resources>
+    </global>
+
+    <admin>
+        <routers>
+            <admin_cleansql>
+                <use>admin</use>
+                <args>
+                    <module>Clean_SqlReports</module>
+                    <frontName>admin_cleansql</frontName>
+                </args>
+            </admin_cleansql>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <cleansql>
+                    <file>cleansql.xml</file>
+                </cleansql>
+            </updates>
+        </layout>
+    </adminhtml>
+</config>
