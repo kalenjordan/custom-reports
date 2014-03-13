@@ -53,7 +53,7 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
 
         Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Saved report: %s", $report->getTitle()));
 
-        $this->_redirect('admin_cleansql/adminhtml_report');
+        $this->_redirect('*/*');
 
         return $this;
     }
@@ -71,7 +71,7 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
 
         Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Deleted report: %s", $report->getTitle()));
 
-        $this->_redirect('admin_cleansql/adminhtml_report');
+        $this->_redirect('*/*');
 
         return $this;
     }
