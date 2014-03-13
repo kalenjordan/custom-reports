@@ -30,7 +30,7 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
     {
         Mage::register('current_report', $this->_getReport());
         $this->_initAction();
-        $this->_title("Edit: " . $this->_getReport()->getTitle());
+        $this->_title($this->__("Edit: %s", $this->_getReport()->getTitle()));
         $this->renderLayout();
     }
 
@@ -52,7 +52,9 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
         }
 
         $report->save();
-        Mage::getSingleton('adminhtml/session')->addSuccess("Saved report: " . $report->getTitle());
+
+        Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Saved report: %s", $report->getTitle()));
+
         $this->_redirect('admin_cleansql/adminhtml_report');
 
         return $this;
@@ -62,13 +64,15 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
     {
         $report = $this->_getReport();
         if (!$report->getId()) {
-            Mage::getSingleton('adminhtml/session')->addSuccess("Wasn't able to find the report");
+            Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Wasn't able to find the report"));
             $this->_redirect('admin_cleansql/adminhtml_report');
             return $this;
         }
 
         $report->delete();
-        Mage::getSingleton('adminhtml/session')->addSuccess("Deleted report: " . $report->getTitle());
+
+        Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Deleted report: %s", $report->getTitle()));
+
         $this->_redirect('admin_cleansql/adminhtml_report');
 
         return $this;
