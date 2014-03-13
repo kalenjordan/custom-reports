@@ -4,20 +4,16 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
 {
     protected $_report;
 
-    protected function _initAction()
+    public function preDispatch()
     {
-        $this->_title($this->__("Reports"));
+        parent::preDispatch();
 
-        $this->loadLayout()
-            ->_setActiveMenu('report/cleansql');
-
-        return $this;
+        $this->_title($this->__("Special Reports"));
     }
 
     public function indexAction()
     {
-        $this->_initAction();
-        $this->_title("Manage Reports");
+        $this->loadLayout();
         $this->renderLayout();
     }
 
@@ -29,16 +25,18 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
     public function editAction()
     {
         Mage::register('current_report', $this->_getReport());
-        $this->_initAction();
         $this->_title($this->__("Edit: %s", $this->_getReport()->getTitle()));
+
+        $this->loadLayout();
         $this->renderLayout();
     }
 
     public function viewAction()
     {
         Mage::register('current_report', $this->_getReport());
-        $this->_initAction();
         $this->_title($this->_getReport()->getTitle());
+
+        $this->loadLayout();
         $this->renderLayout();
     }
 
