@@ -4,7 +4,7 @@
         <report translate="title'">
             <children>
                 <cleansql>
-                    <title>SQL Reports</title>
+                    <title>Special Reports</title>
                     <sort_order>999</sort_order>
                     <action>admin_cleansql/adminhtml_report</action>
                 </cleansql>
