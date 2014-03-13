@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
     <menu>
-        <report module="autoemail" translate="title'">
+        <report translate="title'">
             <children>
                 <cleansql>
                     <title>SQL Reports</title>
