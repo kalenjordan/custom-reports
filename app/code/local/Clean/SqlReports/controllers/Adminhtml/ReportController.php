@@ -75,6 +75,30 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
     }
 
     /**
+     * Export grid to CSV format
+     */
+    public function exportCsvAction()
+    {
+        Mage::register('current_report', $this->_getReport());
+        $this->loadLayout();
+
+        /** @var $grid Mage_Adminhtml_Block_Widget_Grid */
+        $grid = $this->getLayout()->getBlock('report.view.grid');
+        if(!$grid instanceof Mage_Adminhtml_Block_Widget_Grid) {
+            $this->_forward('noroute');
+            return;
+        }
+
+        $fileName = strtolower(str_replace(' ', '_', $this->_getReport()->getTitle())) . '_' . time() . '.csv';
+
+        $this->_prepareDownloadResponse(
+            $fileName,
+            $grid->getCsvFile(),
+            'text/csv'
+        );
+    }
+
+    /**
      * @return Clean_SqlReports_Model_Report
      */
     protected function _getReport()
@@ -90,17 +114,6 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
 
         $this->_report = $report;
         return $this->_report;
-    }
-
-    public function exportCsvAction()
-    {
-        Mage::register('current_report', $this->_getReport());
-        $reportTitle = $this->_getReport()->getTitle();
-        $fileName = strtolower(str_replace(' ', '_', $reportTitle)) . '.csv';
-
-        /** @var Clean_SqlReports_Block_Adminhtml_Report_Grid $grid */
-        $grid = $this->getLayout()->createBlock('cleansql/adminhtml_report_view_grid');
-        $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
 
     protected function _isAllowed()

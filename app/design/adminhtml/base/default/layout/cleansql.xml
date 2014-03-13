@@ -20,5 +20,8 @@
             </block>
         </reference>
     </admin_cleansql_adminhtml_report_view>
+    <admin_cleansql_adminhtml_report_exportcsv>
+        <update handle="admin_cleansql_adminhtml_report_view"/>
+    </admin_cleansql_adminhtml_report_exportcsv>
 </layout>
 
