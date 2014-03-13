@@ -3,19 +3,22 @@
 <layout>
     <admin_cleansql_adminhtml_report_index>
         <reference name="content">
-            <block type="cleansql/adminhtml_report" name="report"/>
+            <block type="cleansql/adminhtml_report" name="report">
+                <block type="cleansql/adminhtml_report_grid" name="report.grid" as="grid" />
+            </block>
         </reference>
     </admin_cleansql_adminhtml_report_index>
-
     <admin_cleansql_adminhtml_report_edit>
         <reference name="content">
-            <block type="cleansql/adminhtml_report_edit" name="report_edit"/>
+            <block type="cleansql/adminhtml_report_edit" name="report_edit" />
         </reference>
     </admin_cleansql_adminhtml_report_edit>
-
     <admin_cleansql_adminhtml_report_view>
         <reference name="content">
-            <block type="cleansql/adminhtml_report_view" name="report_view"/>
+            <block type="cleansql/adminhtml_report_view" name="report.view">
+                <block type="cleansql/adminhtml_report_view_grid" name="report.view.grid" as="grid" />
+            </block>
         </reference>
     </admin_cleansql_adminhtml_report_view>
 </layout>
+
