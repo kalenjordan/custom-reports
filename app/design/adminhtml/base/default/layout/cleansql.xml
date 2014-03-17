@@ -1,12 +1,15 @@
 <?xml version="1.0"?>
 
 <layout>
-    <admin_cleansql_adminhtml_report_index>
+    <admin_cleansql_adminhtml_report>
         <reference name="menu">
             <action method="setActive">
                 <path>report/cleansql</path>
             </action>
         </reference>
+    </admin_cleansql_adminhtml_report>
+    <admin_cleansql_adminhtml_report_index>
+        <update handle="admin_cleansql_adminhtml_report" />
         <reference name="content">
             <block type="cleansql/adminhtml_report" name="report">
                 <block type="cleansql/adminhtml_report_grid" name="report.grid" as="grid">
@@ -20,21 +23,13 @@
         </reference>
     </admin_cleansql_adminhtml_report_index>
     <admin_cleansql_adminhtml_report_edit>
-        <reference name="menu">
-            <action method="setActive">
-                <path>report/cleansql</path>
-            </action>
-        </reference>
+        <update handle="admin_cleansql_adminhtml_report" />
         <reference name="content">
             <block type="cleansql/adminhtml_report_edit" name="report_edit" />
         </reference>
     </admin_cleansql_adminhtml_report_edit>
     <admin_cleansql_adminhtml_report_view>
-        <reference name="menu">
-            <action method="setActive">
-                <path>report/cleansql</path>
-            </action>
-        </reference>
+        <update handle="admin_cleansql_adminhtml_report" />
         <reference name="content">
             <block type="cleansql/adminhtml_report_view" name="report.view">
                 <block type="cleansql/adminhtml_report_view_grid" name="report.view.grid" as="grid" />
