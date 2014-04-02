@@ -1,0 +1,3 @@
+app/code/local/Clean/SqlReports
+app/etc/modules/Clean_SqlReports.xml
+app/design/adminhtml/base/default/layout/cleansql.xml

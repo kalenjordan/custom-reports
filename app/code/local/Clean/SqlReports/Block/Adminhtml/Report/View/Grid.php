@@ -11,7 +11,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
         $this->setDefaultSort('report_id');
         $this->setDefaultDir('ASC');
         $this->setSaveParametersInSession(true);
-        $this->addExportType('*/*/exportCsv/report_id/' . $this->_getReport()->getId(), Mage::helper('core')->__("CSV"));
+        $this->addExportType('*/*/exportCsv', $this->__('CSV'));
     }
 
     protected function _prepareLayout()
@@ -31,20 +31,21 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
         return Mage::registry('current_report');
     }
 
-    protected function _getSqlQueryResults()
+    /**
+     * @author Lee Saferite <lee.saferite@aoe.com>
+     * @return Varien_Data_Collection_Db
+     */
+    protected function _createCollection()
     {
-        if (isset($this->_sqlQueryResults)) {
-            return $this->_sqlQueryResults;
-        }
-
         $report = $this->_getReport();
-        $sql = $report->getData('sql_query');
 
+        /** @var $connection Varien_Db_Adapter_Interface */
         $connection = Mage::getSingleton('core/resource')->getConnection('core_read');
-        $results = $connection->fetchAll($sql);
 
-        $this->_sqlQueryResults = $results;
-        return $this->_sqlQueryResults;
+        $collection = new Varien_Data_Collection_Db($connection);
+        $collection->getSelect()->from(new Zend_Db_Expr("(" . $report->getData('sql_query') . ")"));
+
+        return $collection;
     }
 
     protected function _prepareCollection()
@@ -53,29 +54,31 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
             return $this->_collection;
         }
 
-        $collection = new Varien_Data_Collection();
-        foreach ($this->_getSqlQueryResults() as $result) {
-            $collection->addItem(new Varien_Object($result));
-        }
-
+        $collection = $this->_createCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
-        $results = $this->_getSqlQueryResults();
-        if (!isset($results[0]) || ! is_array($results[0])) {
-            return parent::_prepareColumns();
-        }
+        $collection = $this->_createCollection();
+        $collection->setPageSize(1);
+        $collection->load();
 
-        foreach ($results[0] as $key => $val) {
-            $this->addColumn($key, array(
-                'header'    => Mage::helper('core')->__($key),
-                'index'     => $key,
-                'filter'    => false,
-                'sortable'  => false,
-            ));
+        $items = $collection->getItems();
+        if (count($items)) {
+            $item = reset($items);
+            foreach ($item->getData() as $key => $val) {
+                $this->addColumn(
+                    $key,
+                    array(
+                        'header'   => Mage::helper('core')->__($key),
+                        'index'    => $key,
+                        'filter'   => false,
+                        'sortable' => false,
+                    )
+                );
+            }
         }
 
         return parent::_prepareColumns();

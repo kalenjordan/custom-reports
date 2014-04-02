@@ -16,6 +16,11 @@ class Clean_SqlReports_Block_Adminhtml_Report_View extends Mage_Adminhtml_Block_
         $this->_removeButton('search');
     }
 
+    protected function _prepareLayout()
+    {
+        return Mage_Adminhtml_Block_Widget_Container::_prepareLayout();
+    }
+
     /**
      * @return Clean_SqlReports_Model_Report
      */

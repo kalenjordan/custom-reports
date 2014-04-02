@@ -12,7 +12,11 @@
                 <class>Clean_SqlReports_Block</class>
             </cleansql>
         </blocks>
-
+        <helpers>
+            <cleansql>
+                <class>Clean_SqlReports_Helper</class>
+            </cleansql>
+        </helpers>
         <models>
             <cleansql>
                 <class>Clean_SqlReports_Model</class>
@@ -29,25 +33,12 @@
         </models>
 
         <resources>
-            <cleansql_setup>
+            <Clean_SqlReports>
                 <setup>
                     <module>Clean_SqlReports</module>
-                    <class>Clean_Core_Model_Mysql4_Setup</class>
+                    <class>Mage_Core_Model_Resource_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
-            </cleansql_setup>
-            <cleansql_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </cleansql_write>
-            <cleansql_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </cleansql_read>
+            </Clean_SqlReports>
         </resources>
     </global>
 

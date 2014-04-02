@@ -1,0 +1,9 @@
+{
+    "name": "kalenjordan/custom-reports",
+    "type": "magento-module",
+    "description": "Easily create reports using a SQL query",
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
+

@@ -4,20 +4,16 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
 {
     protected $_report;
 
-    protected function _initAction()
+    public function preDispatch()
     {
-        $this->_title($this->__("Reports"));
+        parent::preDispatch();
 
-        $this->loadLayout()
-            ->_setActiveMenu('report/cleansql');
-
-        return $this;
+        $this->_title($this->__("Special Reports"));
     }
 
     public function indexAction()
     {
-        $this->_initAction();
-        $this->_title("Manage Reports");
+        $this->loadLayout();
         $this->renderLayout();
     }
 
@@ -29,16 +25,18 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
     public function editAction()
     {
         Mage::register('current_report', $this->_getReport());
-        $this->_initAction();
-        $this->_title("Edit: " . $this->_getReport()->getTitle());
+        $this->_title($this->__("Edit: %s", $this->_getReport()->getTitle()));
+
+        $this->loadLayout();
         $this->renderLayout();
     }
 
     public function viewAction()
     {
         Mage::register('current_report', $this->_getReport());
-        $this->_initAction();
         $this->_title($this->_getReport()->getTitle());
+
+        $this->loadLayout();
         $this->renderLayout();
     }
 
@@ -47,13 +45,12 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
         $report = $this->_getReport();
         $postData = $this->getRequest()->getParams();
 
-        foreach ($postData['report'] as $key => $value) {
-            $report->setData($key, $value);
-        }
-
+        $report->addData($postData['report']);
         $report->save();
-        Mage::getSingleton('adminhtml/session')->addSuccess("Saved report: " . $report->getTitle());
-        $this->_redirect('admin_cleansql/adminhtml_report');
+
+        Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Saved report: %s", $report->getTitle()));
+
+        $this->_redirect('*/*');
 
         return $this;
     }
@@ -62,16 +59,42 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
     {
         $report = $this->_getReport();
         if (!$report->getId()) {
-            Mage::getSingleton('adminhtml/session')->addSuccess("Wasn't able to find the report");
+            Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Wasn't able to find the report"));
             $this->_redirect('admin_cleansql/adminhtml_report');
             return $this;
         }
 
         $report->delete();
-        Mage::getSingleton('adminhtml/session')->addSuccess("Deleted report: " . $report->getTitle());
-        $this->_redirect('admin_cleansql/adminhtml_report');
+
+        Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Deleted report: %s", $report->getTitle()));
+
+        $this->_redirect('*/*');
 
         return $this;
+    }
+
+    /**
+     * Export grid to CSV format
+     */
+    public function exportCsvAction()
+    {
+        Mage::register('current_report', $this->_getReport());
+        $this->loadLayout();
+
+        /** @var $grid Mage_Adminhtml_Block_Widget_Grid */
+        $grid = $this->getLayout()->getBlock('report.view.grid');
+        if(!$grid instanceof Mage_Adminhtml_Block_Widget_Grid) {
+            $this->_forward('noroute');
+            return;
+        }
+
+        $fileName = strtolower(str_replace(' ', '_', $this->_getReport()->getTitle())) . '_' . time() . '.csv';
+
+        $this->_prepareDownloadResponse(
+            $fileName,
+            $grid->getCsvFile(),
+            'text/csv'
+        );
     }
 
     /**
@@ -92,14 +115,13 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
         return $this->_report;
     }
 
-    public function exportCsvAction()
+    protected function _isAllowed()
     {
-        Mage::register('current_report', $this->_getReport());
-        $reportTitle = $this->_getReport()->getTitle();
-        $fileName = strtolower(str_replace(' ', '_', $reportTitle)) . '.csv';
+        $isView = in_array($this->getRequest()->getActionName(), array('index', 'view'));
 
-        /** @var Clean_SqlReports_Block_Adminhtml_Report_Grid $grid */
-        $grid = $this->getLayout()->createBlock('cleansql/adminhtml_report_view_grid');
-        $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
+        /** @var $helper Clean_SqlReport_Helper_Data */
+        $helper = Mage::helper('cleansql');
+
+        return ($isView ? $helper->getAllowView() : $helper->getAllowEdit());
     }
 }
