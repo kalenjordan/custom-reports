@@ -15,7 +15,6 @@ class Clean_SqlReports_Block_Adminhtml_Report extends Mage_Adminhtml_Block_Widge
         parent::__construct();
     }
 
-
     protected function _prepareLayout()
     {
         return Mage_Adminhtml_Block_Widget_Container::_prepareLayout();
