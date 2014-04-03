@@ -75,7 +75,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
                         'header'   => Mage::helper('core')->__($key),
                         'index'    => $key,
                         'filter'   => false,
-                        'sortable' => false,
+                        'sortable' => true,
                     )
                 );
             }
