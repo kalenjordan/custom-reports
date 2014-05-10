@@ -76,11 +76,11 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
 
     /**
      * @param Clean_SqlReports_Model_Report $item
+     *
      * @return string
      */
     public function getRowUrl($item)
     {
-        $route = Mage::helper('cleansql')->getPrimaryReportRoute($item);
-        return $this->getUrl("*/*/$route", array('report_id' => $item->getId()));
+        return $this->getUrl('*/*/view', array('report_id' => $item->getId()));
     }
 }

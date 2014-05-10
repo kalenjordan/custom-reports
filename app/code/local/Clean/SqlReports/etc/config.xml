@@ -5,7 +5,6 @@
             <version>0.1.1</version>
         </Clean_SqlReports>
     </modules>
-
     <global>
         <blocks>
             <cleansql>
@@ -31,7 +30,6 @@
                 </entities>
             </cleansql_mysql4>
         </models>
-
         <resources>
             <Clean_SqlReports>
                 <setup>
@@ -41,7 +39,6 @@
             </Clean_SqlReports>
         </resources>
     </global>
-
     <admin>
         <routers>
             <adminhtml>
@@ -53,8 +50,6 @@
             </adminhtml>
         </routers>
     </admin>
-
-
     <adminhtml>
         <layout>
             <updates>
