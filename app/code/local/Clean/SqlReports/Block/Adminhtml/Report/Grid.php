@@ -12,7 +12,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
         $this->setSaveParametersInSession(true);
 
         // TODO: remove this direct helper access and replace with an action element in the layout XML
-        $this->setData('allow_edit', Mage::helper('cleansql')->getAllowEdit());
+        $this->setAllowEdit(Mage::helper('cleansql')->getAllowEdit());
     }
 
     protected function _prepareCollection()
