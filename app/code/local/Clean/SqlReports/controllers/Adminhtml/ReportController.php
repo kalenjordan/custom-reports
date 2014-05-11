@@ -31,7 +31,16 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
         $this->renderLayout();
     }
 
-    public function viewAction()
+    public function viewTableAction()
+    {
+        Mage::register('current_report', $this->_getReport());
+        $this->_title($this->_getReport()->getTitle());
+
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    public function viewChartAction()
     {
         Mage::register('current_report', $this->_getReport());
         $this->_title($this->_getReport()->getTitle());
