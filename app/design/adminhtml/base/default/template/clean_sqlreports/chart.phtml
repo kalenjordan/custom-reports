@@ -1,9 +1,6 @@
-<?php
-    /* @var $this Clean_SqlReports_Block_Adminhtml_Report_Chart */
-    $report = $this->_getReport(); /* @var $report Clean_SqlReports_Model_Report */
-?>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
-<?php echo $report->getChartConfig(); ?>
+<?php echo $this->renderChart(); ?>
 
 <div id="chart_div"></div>
 

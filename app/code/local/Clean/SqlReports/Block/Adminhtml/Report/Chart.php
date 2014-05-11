@@ -13,4 +13,12 @@ class Clean_SqlReports_Block_Adminhtml_Report_Chart extends Mage_Adminhtml_Block
         return Mage::registry('current_report');
     }
 
+    public function renderChart()
+    {
+        $_report = $this->_getReport();
+
+        return $_report->getChartConfig();
+
+    }
+
 }
