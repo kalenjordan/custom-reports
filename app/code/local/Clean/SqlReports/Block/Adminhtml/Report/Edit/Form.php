@@ -53,7 +53,18 @@ class Clean_SqlReports_Block_Adminhtml_Report_Edit_Form extends Mage_Adminhtml_B
             'label'     => Mage::helper('core')->__('SQL'),
             'required'  => true,
             'style'     => 'width: 640px; height: 480px;'
+        ));
 
+        $fieldset->addField('output_type', 'text', array(
+            'name'      => 'report[output_type]',
+            'label'     => Mage::helper('core')->__('Output Type'),
+            'required'  => true,
+        ));
+
+        $fieldset->addField('chart_config', 'textarea', array(
+            'name'      => 'report[chart_config]',
+            'label'     => Mage::helper('core')->__('Chart Configuration'),
+            'style'     => 'width: 640px; height: 480px;'
         ));
     }
 }
