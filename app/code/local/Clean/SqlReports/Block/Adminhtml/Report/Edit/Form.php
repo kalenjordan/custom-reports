@@ -55,11 +55,14 @@ class Clean_SqlReports_Block_Adminhtml_Report_Edit_Form extends Mage_Adminhtml_B
             'style'     => 'width: 640px; height: 200;'
         ));
 
-        $fieldset->addField('output_type', 'text', array(
-            'name'      => 'report[output_type]',
-            'label'     => Mage::helper('core')->__('Output Type'),
-            'required'  => true,
+        // Start Refactor : Replace with predefined types and a source
+        $fieldset->addField('output_type', 'select', array(
+            'name' => 'report[output_type]',
+            'label' => Mage::helper('core')->__('Output Type'),
+            'values' => Mage::getModel('cleansql/config_outputType')->toOptionArray(),
+            'required' => true,
         ));
+        // End Refactor
 
         $fieldset->addField('chart_config', 'textarea', array(
             'name'      => 'report[chart_config]',
