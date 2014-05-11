@@ -28,7 +28,7 @@
     <adminhtml_adminhtml_report_edit>
         <update handle="adminhtml_adminhtml_report" />
         <reference name="content">
-            <block type="cleansql/adminhtml_report_edit" name="report_edit" />
+            <block type="cleansql/adminhtml_report_edit" name="report_edit"/>
         </reference>
     </adminhtml_adminhtml_report_edit>
     
@@ -36,7 +36,13 @@
         <update handle="adminhtml_adminhtml_report" />
         <reference name="content">
             <block type="cleansql/adminhtml_report_view" name="report.view">
-                <block type="cleansql/adminhtml_report_view_grid" name="report.view.grid" as="grid" />
+                <block type="cleansql/adminhtml_report_view_grid" name="report.view.grid" as="grid">
+                    <action method="setColumnRenderers">
+                        <renderers>
+                            <action>cleansql/adminhtml_widget_grid_column_renderer_action</action>
+                        </renderers>
+                    </action>
+                </block>
             </block>
         </reference>
     </adminhtml_adminhtml_report_viewtable>
@@ -52,5 +58,13 @@
         <update handle="adminhtml_adminhtml_report_view"/>
     </adminhtml_adminhtml_report_exportcsv>
     
+    <adminhtml_adminhtml_report_result>
+        <update handle="adminhtml_adminhtml_report"/>
+        <reference name="content">
+            <block type="cleansql/adminhtml_report_result" name="report.result">
+                <block type="cleansql/adminhtml_report_result_grid" name="report.result.grid" as="grid"/>
+            </block>
+        </reference>
+    </adminhtml_adminhtml_report_result>
 </layout>
 

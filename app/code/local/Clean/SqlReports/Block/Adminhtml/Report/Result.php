@@ -1,27 +1,20 @@
 <?php
 
-class Clean_SqlReports_Block_Adminhtml_Report_View extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Clean_SqlReports_Block_Adminhtml_Report_Result extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Class constructor
      */
     public function __construct()
     {
-        $this->_controller = 'adminhtml_report_view';
+        $this->_controller = 'adminhtml_report_result';
         $this->_blockGroup = 'cleansql';
         $this->_headerText = Mage::helper('core')->__($this->_getReport()->getTitle());
 
-        $this->_addButtonLabel = $this->__('Run');
-
         parent::__construct();
 
-        //$this->_removeButton('add');
+        $this->_removeButton('add');
         $this->_removeButton('search');
-    }
-
-    public function getCreateUrl()
-    {
-        return $this->getUrl('*/*/run', array('_current' => true));
     }
 
     protected function _prepareLayout()
@@ -35,5 +28,13 @@ class Clean_SqlReports_Block_Adminhtml_Report_View extends Mage_Adminhtml_Block_
     protected function _getReport()
     {
         return Mage::registry('current_report');
+    }
+
+    /**
+     * @return Clean_SqlReports_Model_Result
+     */
+    protected function _getResult()
+    {
+        return Mage::registry('current_result');
     }
 }

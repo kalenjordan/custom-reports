@@ -25,6 +25,10 @@
                                         <title>Add/Edit Reports (DANGEROUS)</title>
                                         <sort_order>10</sort_order>
                                     </edit>
+                                    <run translate="title">
+                                        <title>Run Reports</title>
+                                        <sort_order>10</sort_order>
+                                    </run>
                                 </children>
                             </cleansql>
                         </children>

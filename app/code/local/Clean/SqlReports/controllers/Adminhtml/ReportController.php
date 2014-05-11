@@ -24,8 +24,15 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
 
     public function editAction()
     {
-        Mage::register('current_report', $this->_getReport());
-        $this->_title($this->__("Edit: %s", $this->_getReport()->getTitle()));
+        $report = $this->_getReport();
+        if (!$report->getId() && $this->getRequest()->getBeforeForwardInfo('action_name') !== 'new') {
+            $this->_forward('noroute');
+            return;
+        }
+
+        Mage::register('current_report', $report);
+
+        $this->_title($this->__("Edit: %s", $report->getTitle()));
 
         $this->loadLayout();
         $this->renderLayout();
@@ -33,8 +40,17 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
 
     public function viewtableAction()
     {
-        Mage::register('current_report', $this->_getReport());
-        $this->_title($this->_getReport()->getTitle());
+        $report = $this->_getReport();
+        if (!$report->getId()) {
+            $this->_forward('noroute');
+            return;
+        }
+
+        Mage::register('current_report', $report);
+
+        $this->_title($report->getTitle());
+
+        $result = $this->_getReport()->run();
 
         $this->loadLayout();
         $this->renderLayout();
@@ -42,11 +58,25 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
 
     public function viewchartAction()
     {
-        Mage::register('current_report', $this->_getReport());
-        $this->_title($this->_getReport()->getTitle());
+        $report = $this->_getReport();
+        if (!$report->getId()) {
+            $this->_forward('noroute');
+        }
+
+        Mage::register('current_report', $report);
+
+        $this->_title($report->getTitle());
 
         $this->loadLayout();
         $this->renderLayout();
+    }
+
+    public function runAction()
+    {
+        Mage::register('current_report', $this->_getReport());
+        $result = $this->_getReport()->run();
+
+        $this->_redirect('*/*/view', array('_current' => true));
     }
 
     public function saveAction()
@@ -68,8 +98,8 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
     {
         $report = $this->_getReport();
         if (!$report->getId()) {
-            Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Wasn't able to find the report"));
-            $this->_redirect('adminhtml/adminhtml_report');
+            Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Unable to find the report"));
+            $this->_redirect('*/*');
             return $this;
         }
 
@@ -82,17 +112,61 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
         return $this;
     }
 
+    public function resultAction()
+    {
+        $result = $this->_getResult();
+        if (!$result->getId()) {
+            $this->_forward('noroute');
+            return;
+        }
+
+        Mage::register('current_result', $result);
+        Mage::register('current_report', $result->getReport());
+
+        $this->_title($this->_getReport()->getTitle());
+        $this->_title($result->getCreatedAt());
+
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    public function deleteResultAction()
+    {
+        $result = $this->_getResult();
+        if (!$result->getId()) {
+            Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Unable to find the report result"));
+            $this->_redirect('*/*');
+            return $this;
+        }
+
+        $result->delete();
+
+        Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Deleted report result: %s / %s", $result->getReport()->getTitle(), $result->getCreatedAt()));
+
+        $this->_redirect('*/*/view', array('id' => $result->getReportId()));
+
+        return $this;
+    }
+
     /**
      * Export grid to CSV format
      */
     public function exportCsvAction()
     {
-        Mage::register('current_report', $this->_getReport());
+        $result = $this->_getResult();
+        if (!$result->getId()) {
+            $this->_forward('noroute');
+            return;
+        }
+
+        Mage::register('current_result', $result);
+        Mage::register('current_report', $result->getReport());
+
         $this->loadLayout();
 
         /** @var $grid Mage_Adminhtml_Block_Widget_Grid */
         $grid = $this->getLayout()->getBlock('report.view.grid');
-        if(!$grid instanceof Mage_Adminhtml_Block_Widget_Grid) {
+        if (!$grid instanceof Mage_Adminhtml_Block_Widget_Grid) {
             $this->_forward('noroute');
             return;
         }
@@ -138,21 +212,55 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
         }
 
         $report = Mage::getModel('cleansql/report');
-        if ($this->getRequest()->getParam('report_id')) {
-            $report->load($this->getRequest()->getParam('report_id'));
+        if ($this->getRequest()->getParam('id')) {
+            $report->load($this->getRequest()->getParam('id'));
         }
 
         $this->_report = $report;
         return $this->_report;
     }
 
+    /**
+     * @return Clean_SqlReports_Model_Result
+     */
+    protected function _getResult()
+    {
+        if (isset($this->_result)) {
+            return $this->_result;
+        }
+
+        $result = Mage::getModel('cleansql/result');
+        if ($this->getRequest()->getParam('id')) {
+            $result->load($this->getRequest()->getParam('id'));
+        }
+
+        $this->_result = $result;
+        return $this->_result;
+    }
+
     protected function _isAllowed()
     {
-        $isView = in_array($this->getRequest()->getActionName(), array('index', 'view'));
-
-        /** @var $helper Clean_SqlReport_Helper_Data */
+        /** @var Clean_SqlReports_Helper_Data $helper */
         $helper = Mage::helper('cleansql');
 
-        return ($isView ? $helper->getAllowView() : $helper->getAllowEdit());
+        switch ($this->getRequest()->getActionName()) {
+            case 'index':
+            case 'view':
+            case 'result':
+                return $helper->getAllowView();
+                break;
+            case 'new':
+            case 'edit':
+            case 'save':
+            case 'delete':
+                return $helper->getAllowEdit();
+                break;
+            case 'run':
+            case 'deleteResult':
+                return $helper->getAllowRun();
+                break;
+            default:
+                return false;
+        }
     }
 }

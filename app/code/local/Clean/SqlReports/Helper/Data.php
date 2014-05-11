@@ -19,6 +19,18 @@ class Clean_SqlReports_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Return a flag indicating if the currently logged in admin user can run reports
+     *
+     * @return bool
+     *
+     * @author Lee Saferite <lee.saferite@aoe.com>
+     */
+    public function getAllowRun()
+    {
+        return $this->getAdminSession()->isAllowed('report/cleansql/run');
+    }
+
+    /**
      * Return a flag indicating if the currently logged in admin user can add/edit reports
      *
      * @return bool

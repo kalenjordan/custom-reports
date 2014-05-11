@@ -20,18 +20,65 @@ class Clean_SqlReports_Model_Report extends Mage_Core_Model_Abstract
         $this->_init('cleansql/report');
     }
 
-    public function getReportCollection()
+    /**
+     * Run this report
+     *
+     * @return Clean_SqlReports_Model_Result
+     *
+     * @author Lee Saferite <lee.saferite@aoe.com>
+     */
+    public function run()
     {
-        $connection = Mage::helper('cleansql')->getDefaultConnection();
-            
-        $collection = Mage::getModel('cleansql/reportCollection', $connection);
-        $collection->getSelect()->from(new Zend_Db_Expr('(' . $this->getData('sql_query') . ')'));
+        /** @var Clean_SqlReports_Model_Result $result */
+        $result = Mage::getModel('cleansql/result');
+        $result->setReportId($this->getId());
+        $result->setColumnConfig($this->getColumnConfig());
+        $result->setCreatedAt(Mage::app()->getLocale()->storeDate(null, null, true));
+        $result->save();
 
-        return $collection;
+        return $result;
+    }
+
+    /**
+     * @return Clean_SqlReports_Model_Result
+     *
+     * @author Lee Saferite <lee.saferite@aoe.com>
+     */
+    public function getLatestResult()
+    {
+        return Mage::getModel('cleansql/result')->getCollection()
+            ->addFieldToFilter('report_id', $this->getId())
+            ->addOrder('created_at', 'DESC')
+            ->getFirstItem();
     }
 
     public function getChartDiv()
     {
         return 'chart_' . $this->getId();
+    }
+
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+
+        $columnConfig = $this->getColumnConfig();
+        $columnConfig = implode(',', array_filter(array_map('trim', explode("\n", $columnConfig))));
+        $this->setColumnConfig($columnConfig);
+
+        return $this;
+    }
+
+    /**
+     * Delete object from database
+     *
+     * @return Mage_Core_Model_Abstract
+     */
+    public function delete()
+    {
+        Mage::getModel('cleansql/result')->getCollection()
+            ->addFieldToFilter('report_id', $this->getId())
+            ->walk('delete');
+
+        return parent::delete();
     }
 }

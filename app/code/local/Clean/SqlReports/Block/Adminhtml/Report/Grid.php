@@ -13,6 +13,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
 
         // TODO: remove this direct helper access and replace with an action element in the layout XML
         $this->setAllowEdit(Mage::helper('cleansql')->getAllowEdit());
+        $this->setAllowRun(Mage::helper('cleansql')->getAllowRun());
     }
 
     protected function _prepareCollection()
@@ -43,9 +44,20 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
                     'base'   => '*/*/viewtable',
                     'params' => array(),
                 ),
-                'field'   => 'report_id'
+                'field'   => 'id'
             )
         );
+
+        if ($this->getAllowRun()) {
+            $actions[] = array(
+                'caption' => $this->__('Run'),
+                'url'     => array(
+                    'base'   => '*/*/run',
+                    'params' => array(),
+                ),
+                'field'   => 'id'
+            );
+        }
 
         if ($this->getAllowEdit()) {
             $actions[] = array(
@@ -54,7 +66,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
                     'base'   => '*/*/edit',
                     'params' => array(),
                 ),
-                'field'   => 'report_id'
+                'field'   => 'id'
             );
         }
 
@@ -81,6 +93,6 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
      */
     public function getRowUrl($item)
     {
-        return $this->getUrl('*/*/view', array('report_id' => $item->getId()));
+        return $this->getUrl('*/*/view', array('id' => $item->getId()));
     }
 }
