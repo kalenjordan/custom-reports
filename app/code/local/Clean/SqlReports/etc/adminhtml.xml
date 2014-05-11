@@ -6,7 +6,7 @@
                 <cleansql>
                     <title>Special Reports</title>
                     <sort_order>999</sort_order>
-                    <action>admin_cleansql/adminhtml_report</action>
+                    <action>adminhtml/adminhtml_report</action>
                 </cleansql>
             </children>
         </report>

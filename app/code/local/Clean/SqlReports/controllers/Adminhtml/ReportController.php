@@ -69,7 +69,7 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
         $report = $this->_getReport();
         if (!$report->getId()) {
             Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Wasn't able to find the report"));
-            $this->_redirect('admin_cleansql/adminhtml_report');
+            $this->_redirect('adminhtml/adminhtml_report');
             return $this;
         }
 

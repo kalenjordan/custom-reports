@@ -44,15 +44,16 @@
 
     <admin>
         <routers>
-            <admin_cleansql>
-                <use>admin</use>
+            <adminhtml>
                 <args>
-                    <module>Clean_SqlReports</module>
-                    <frontName>admin_cleansql</frontName>
+                    <modules>
+                        <admin_cleansql before="Mage_Adminhtml">Clean_SqlReports</admin_cleansql>
+                    </modules>
                 </args>
-            </admin_cleansql>
+            </adminhtml>
         </routers>
     </admin>
+
 
     <adminhtml>
         <layout>
