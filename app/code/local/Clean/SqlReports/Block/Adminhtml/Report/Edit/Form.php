@@ -52,7 +52,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Edit_Form extends Mage_Adminhtml_B
             'name'      => 'report[sql_query]',
             'label'     => Mage::helper('core')->__('SQL'),
             'required'  => true,
-            'style'     => 'width: 640px; height: 480px;'
+            'style'     => 'width: 640px; height: 200;'
         ));
 
         $fieldset->addField('output_type', 'text', array(
@@ -64,7 +64,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Edit_Form extends Mage_Adminhtml_B
         $fieldset->addField('chart_config', 'textarea', array(
             'name'      => 'report[chart_config]',
             'label'     => Mage::helper('core')->__('Chart Configuration'),
-            'style'     => 'width: 640px; height: 480px;'
+            'style'     => 'width: 640px; height: 200px;'
         ));
     }
 }

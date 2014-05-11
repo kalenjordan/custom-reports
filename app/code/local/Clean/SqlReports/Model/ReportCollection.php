@@ -14,9 +14,27 @@ class Clean_SqlReports_Model_ReportCollection extends Varien_Data_Collection_Db
     {
         $results = array();
 
+        $first = true;
+
         /** @var $item Varien_Object */
         foreach ($this as $item) {
-            $results[] = array($item->getData('label'), (int)$item->getData('value'));
+            if ($first) {
+                $labels = array();
+                foreach ($item->getData() as $key => $value) {
+                    $labels[] = $key;
+                }
+                $results[] = $labels;
+                $first = false;
+            }
+            $row = array();
+            foreach ($item->getData() as $key => $value) {
+                if (is_numeric($value)) {
+                    $value = (float)$value;
+                }
+                $row[] = $value;
+            }
+
+            $results[] = $row;
         }
 
         $jsonEncoded = json_encode($results);

@@ -3,8 +3,11 @@
     $report = $this->_getReport(); /* @var $report Clean_SqlReports_Model_Report */
 ?>
 
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
 <?php echo $report->getChartConfig(); ?>
+</script>
 
-<div id="chart_div"></div>
+<div id="<?php echo $report->getChartDiv(); ?>"></div>
 
 

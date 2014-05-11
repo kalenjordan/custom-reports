@@ -107,6 +107,17 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
     }
 
     /**
+     * Get JSON action
+     *
+     * @return void
+     */
+    public function getJsonAction() {
+        $json = $this->_getReport()->getReportCollection()->toReportJson();
+        $this->getResponse()->setBody($json);
+        $this->getResponse()->setHeader('Content-type' , 'application/json');
+    }
+
+    /**
      * @return Clean_SqlReports_Model_Report
      */
     protected function _getReport()

@@ -82,13 +82,4 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
         return parent::_prepareColumns();
     }
 
-    /**
-     * @param $item Clean_SqlReports_Model_Report
-     *
-     * @return string
-     */
-    public function getRowUrl($item)
-    {
-        return $this->getUrl('*/*/view', array('report_id' => $item->getId()));
-    }
 }
