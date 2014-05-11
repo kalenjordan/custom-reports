@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 
 <layout>
+    
     <adminhtml_adminhtml_report>
         <reference name="menu">
             <action method="setActive">
@@ -8,6 +9,7 @@
             </action>
         </reference>
     </adminhtml_adminhtml_report>
+    
     <adminhtml_adminhtml_report_index>
         <update handle="adminhtml_adminhtml_report" />
         <reference name="content">
@@ -22,22 +24,33 @@
             </block>
         </reference>
     </adminhtml_adminhtml_report_index>
+    
     <adminhtml_adminhtml_report_edit>
         <update handle="adminhtml_adminhtml_report" />
         <reference name="content">
             <block type="cleansql/adminhtml_report_edit" name="report_edit" />
         </reference>
     </adminhtml_adminhtml_report_edit>
-    <adminhtml_adminhtml_report_view>
+    
+    <adminhtml_adminhtml_report_viewtable>
         <update handle="adminhtml_adminhtml_report" />
         <reference name="content">
             <block type="cleansql/adminhtml_report_view" name="report.view">
                 <block type="cleansql/adminhtml_report_view_grid" name="report.view.grid" as="grid" />
             </block>
         </reference>
-    </adminhtml_adminhtml_report_view>
+    </adminhtml_adminhtml_report_viewtable>
+
+    <adminhtml_adminhtml_report_viewchart>
+        <update handle="adminhtml_adminhtml_report" />
+        <reference name="content">
+            <block type="cleansql/adminhtml_report_chart" name="report.chart" />
+        </reference>
+    </adminhtml_adminhtml_report_viewchart>
+    
     <adminhtml_adminhtml_report_exportcsv>
         <update handle="adminhtml_adminhtml_report_view"/>
     </adminhtml_adminhtml_report_exportcsv>
+    
 </layout>
 

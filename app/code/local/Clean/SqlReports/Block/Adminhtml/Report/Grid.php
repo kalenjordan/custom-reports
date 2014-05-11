@@ -40,7 +40,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
             array(
                 'caption' => $this->__('View Chart'),
                 'url'     => array(
-                    'base'   => '*/*/viewChart',
+                    'base'   => '*/*/viewchart',
                     'params' => array(),
                 ),
                 'field'   => 'report_id'
@@ -48,7 +48,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
             array(
                 'caption' => $this->__('View Table'),
                 'url'     => array(
-                    'base'   => '*/*/viewTable',
+                    'base'   => '*/*/viewtable',
                     'params' => array(),
                 ),
                 'field'   => 'report_id'
@@ -75,7 +75,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
                 'filter'     => false,
                 'type'       => 'action',
                 'actions'    => $actions,
-                'link_limit' => 2,
+                'link_limit' => 3,
             )
         );
 

@@ -59,7 +59,7 @@
         <layout>
             <updates>
                 <cleansql>
-                    <file>cleansql.xml</file>
+                    <file>clean_sqlreports/cleansql.xml</file>
                 </cleansql>
             </updates>
         </layout>

@@ -31,7 +31,7 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
         $this->renderLayout();
     }
 
-    public function viewTableAction()
+    public function viewtableAction()
     {
         Mage::register('current_report', $this->_getReport());
         $this->_title($this->_getReport()->getTitle());
@@ -40,7 +40,7 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
         $this->renderLayout();
     }
 
-    public function viewChartAction()
+    public function viewchartAction()
     {
         Mage::register('current_report', $this->_getReport());
         $this->_title($this->_getReport()->getTitle());
