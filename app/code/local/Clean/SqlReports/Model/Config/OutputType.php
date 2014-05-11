@@ -18,7 +18,7 @@ class Clean_SqlReports_Model_Config_OutputType extends Mage_Core_Model_Config_Da
     public function toOptionArray()
     {
         return array(
-            array('value' =>self::TYPE_TABLE, 'title' =>Mage::helper('cleansql')->__('Table'), 'label' => Mage::helper('cleansql')->__('Table')),
+            array('value' =>self::TYPE_TABLE_CHART, 'title' =>Mage::helper('cleansql')->__('Table'), 'label' => Mage::helper('cleansql')->__('Table')),
             array('value' =>self::TYPE_PIE_CHART, 'title' =>Mage::helper('cleansql')->__('Pie Chart'), 'label' => Mage::helper('cleansql')->__('Pie Chart')),
             array('value' =>self::TYPE_BAR_CHART, 'title' =>Mage::helper('cleansql')->__('Bar Chart'), 'label' => Mage::helper('cleansql')->__('Bar Chart')),
             array('value' =>self::TYPE_COLUMN_CHART, 'title' =>Mage::helper('cleansql')->__('Column Chart'), 'label' => Mage::helper('cleansql')->__('Column Chart')),
