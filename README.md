@@ -28,11 +28,11 @@ Easily create reports with custom SQL queries and display them using the magento
  - Sales by Month (Column Chart)
 
 #### **Contributors**
-Kalen Jordan
-Allan MacGregor
-Fabrizio Branca
-Lee Saferite
-Tom Steigerwald
+- Kalen Jordan
+- Allan MacGregor
+- Fabrizio Branca
+- Lee Saferite
+- Tom Steigerwald
 
 
 #### **Known Issues**
