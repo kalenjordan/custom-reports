@@ -13,7 +13,7 @@
 <?php endif; ?>
 
 google.setOnLoadCallback(function() {
-    new Ajax.Request('<?php echo Mage::getUrl('adminhtml/adminhtml_report/getJson', array('report_id' => $report->getId())) ?>', {
+    new Ajax.Request('<?php echo Mage::helper("adminhtml")->getUrl('adminhtml/adminhtml_report/getJson',array('report_id' => $report->getId())) ?>', {
         method:'get',
         onSuccess: function(transport) {
             var jsonData = transport.responseText.evalJSON();
