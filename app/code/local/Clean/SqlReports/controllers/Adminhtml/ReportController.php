@@ -112,9 +112,20 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
      * @return void
      */
     public function getJsonAction() {
-        $json = $this->_getReport()->getReportCollection()->toReportJson();
-        $this->getResponse()->setBody($json);
-        $this->getResponse()->setHeader('Content-type' , 'application/json');
+        try {
+            $report = $this->_getReport();
+
+            if ($report->getOutputType() == Clean_SqlReports_Model_Config_OutputType::TYPE_CALENDAR_CHART) {
+                $json = $report->getReportCollection()->toCalendarJson();
+            } else {
+                $json = $report->getReportCollection()->toReportJson();
+            }
+            $this->getResponse()->setBody($json);
+            $this->getResponse()->setHeader('Content-type', 'application/json');
+        } catch (Exception $e) {
+            $this->getResponse()->setBody(json_encode(array('error' => $e->getMessage())));
+            $this->getResponse()->setHeader('Content-type', 'application/json');
+        }
     }
 
     /**

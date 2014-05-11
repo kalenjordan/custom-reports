@@ -40,4 +40,22 @@ class Clean_SqlReports_Model_ReportCollection extends Varien_Data_Collection_Db
         $jsonEncoded = json_encode($results);
         return $jsonEncoded;
     }
+
+    public function toCalendarJson() {
+        $results = array();
+        foreach ($this as $item) {
+            $row = array();
+            foreach ($item->getData() as $key => $value) {
+                if (is_numeric($value) && $value < 1000000) {
+                    $value = (float)$value;
+                }
+                $row[] = $value;
+            }
+            $results[] = $row;
+        }
+
+        $jsonEncoded = json_encode($results);
+        return $jsonEncoded;
+    }
+
 }

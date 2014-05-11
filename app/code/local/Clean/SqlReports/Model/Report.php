@@ -30,18 +30,6 @@ class Clean_SqlReports_Model_Report extends Mage_Core_Model_Abstract
         return $collection;
     }
 
-    public function getChartConfig()
-    {
-        $chartConfig = $this->getData('chart_config');
-        if (strpos($chartConfig, '{{var json_data}}') !== false) {
-            $json = $this->getReportCollection()->toReportJson();
-            $chartConfig = str_replace("{{var json_data}}", $json, $chartConfig);
-        }
-        $chartConfig = str_replace("{{json_url}}", Mage::getUrl('adminhtml/adminhtml_report/getJson', array('report_id' => $this->getId())), $chartConfig);
-        $chartConfig = str_replace("{{chart_div}}", $this->getChartDiv(), $chartConfig);
-        return $chartConfig;
-    }
-
     public function getChartDiv() {
         return 'chart_' . $this->getId();
     }
