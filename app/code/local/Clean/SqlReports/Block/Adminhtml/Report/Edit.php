@@ -26,4 +26,9 @@ class Clean_SqlReports_Block_Adminhtml_Report_Edit extends Mage_Adminhtml_Block_
             'class'     => 'save',
         ));
     }
+
+    protected function _prepareLayout()
+    {
+        return Mage_Adminhtml_Block_Widget_Container::_prepareLayout();
+    }
 }

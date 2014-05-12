@@ -1,0 +1,153 @@
+<?php
+
+class Clean_SqlReports_SqlReports_ReportController extends Mage_Adminhtml_Controller_Action
+{
+    protected $_report;
+
+    public function preDispatch()
+    {
+        parent::preDispatch();
+
+        $this->_title($this->__("Special Reports"));
+    }
+
+    public function indexAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    public function newAction()
+    {
+        $this->_forward('edit');
+    }
+
+    public function editAction()
+    {
+        $report = $this->getReport();
+        if (!$report->getId() && $this->getRequest()->getBeforeForwardInfo('action_name') !== 'new') {
+            $this->_forward('noroute');
+            return;
+        }
+
+        $this->_title($this->__("Edit: %s", $report->getTitle()));
+
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    public function viewAction()
+    {
+        $report = $this->getReport();
+        if (!$report->getId()) {
+            $this->_forward('noroute');
+            return;
+        }
+
+        $this->_title($report->getTitle());
+
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    public function runAction()
+    {
+        $report = $this->getReport();
+        if (!$report->getId()) {
+            $this->_forward('noroute');
+            return;
+        }
+
+        $result = $this->getReport()->run();
+
+        $this->_redirect('*/sqlReports_result/view', array('id' => $result->getId()));
+    }
+
+    public function saveAction()
+    {
+        $report = $this->getReport();
+        $postData = $this->getRequest()->getParams();
+
+        $report->addData($postData['report']);
+        $report->save();
+
+        Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Saved report: %s", $report->getTitle()));
+
+        $this->_redirect('*/*');
+
+        return $this;
+    }
+
+    public function deleteAction()
+    {
+        $report = $this->getReport();
+        if (!$report->getId()) {
+            Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Unable to find the report"));
+            $this->_redirect('*/*');
+            return $this;
+        }
+
+        $report->delete();
+
+        Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Deleted report: %s", $report->getTitle()));
+
+        $this->_redirect('*/*');
+
+        return $this;
+    }
+
+    /**
+     * @return Clean_SqlReports_Model_Report
+     */
+    protected function getReport()
+    {
+        if (isset($this->_report)) {
+            return $this->_report;
+        }
+
+        /** @var Clean_SqlReports_Model_Report $report */
+        $report = Mage::getModel('cleansql/report');
+        if ($this->getRequest()->getParam('id')) {
+            $report->load($this->getRequest()->getParam('id'));
+        }
+
+        $this->_report = $report;
+        $this->getHelper()->setCurrentReport($report);
+
+        return $this->_report;
+    }
+
+    /**
+     * @return Clean_SqlReports_Helper_Data
+     *
+     * @author Lee Saferite <lee.saferite@aoe.com>
+     */
+    protected function getHelper()
+    {
+        return Mage::helper('cleansql');
+    }
+
+    protected function _isAllowed()
+    {
+        /** @var Clean_SqlReports_Helper_Data $helper */
+        $helper = Mage::helper('cleansql');
+
+        switch ($this->getRequest()->getActionName()) {
+            case 'index':
+            case 'view':
+                return $helper->getAllowView();
+                break;
+            case 'new':
+            case 'edit':
+            case 'save':
+            case 'delete':
+                return $helper->getAllowEdit();
+                break;
+            case 'run':
+                return $helper->getAllowRun();
+                break;
+            default:
+                return false;
+        }
+    }
+}

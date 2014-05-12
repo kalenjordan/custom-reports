@@ -1,4 +1,4 @@
 app/code/local/Clean/SqlReports
 app/etc/modules/Clean_SqlReports.xml
-app/design/adminhtml/base/default/layout/clean_sqlreports
+app/design/adminhtml/base/default/layout/clean_sqlreports.xml
 app/design/adminhtml/base/default/template/clean_sqlreports

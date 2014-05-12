@@ -6,12 +6,11 @@
                 <cleansql>
                     <title>Special Reports</title>
                     <sort_order>999</sort_order>
-                    <action>adminhtml/adminhtml_report</action>
+                    <action>adminhtml/sqlReports_report</action>
                 </cleansql>
             </children>
         </report>
     </menu>
-
     <acl>
         <resources>
             <admin>

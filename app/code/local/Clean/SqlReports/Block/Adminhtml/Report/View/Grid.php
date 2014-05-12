@@ -19,6 +19,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
+
         $this->unsetChild('search_button');
         $this->unsetChild('reset_filter_button');
 
@@ -28,17 +29,29 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
     /**
      * @return Clean_SqlReports_Model_Report
      */
-    protected function _getReport()
+    protected function getReport()
     {
-        return Mage::registry('current_report');
+        return $this->_getHelper()->getCurrentReport();
+    }
+
+    /**
+     * @return Clean_SqlReports_Helper_Data
+     *
+     * @author Lee Saferite <lee.saferite@aoe.com>
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('cleansql');
     }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('cleansql/result')->getCollection()
-            ->addFieldToFilter('report_id', $this->_getReport()->geTId());
+        if (!$this->getCollection()) {
+            $collection = Mage::getModel('cleansql/result')->getCollection()
+                ->addFieldToFilter('report_id', $this->getReport()->geTId());
 
-        $this->setCollection($collection);
+            $this->setCollection($collection);
+        }
 
         return parent::_prepareCollection();
     }
@@ -65,20 +78,28 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
 
         $actions = array(
             array(
-                'caption' => $this->__('View'),
+                'caption' => $this->__('View Table'),
                 'url'     => array(
-                    'base'   => '*/*/result',
+                    'base'   => '*/sqlReports_result/view',
                     'params' => array(),
                 ),
                 'field'   => 'id'
-            )
+            ),
+            array(
+                'caption' => $this->__('View Chart'),
+                'url'     => array(
+                    'base'   => '*/sqlReports_chart/view',
+                    'params' => array(),
+                ),
+                'field'   => 'id'
+            ),
         );
 
         if ($this->getAllowRun()) {
             $actions[] = array(
                 'caption' => $this->__('Delete'),
                 'url'     => array(
-                    'base'   => '*/*/deleteResult',
+                    'base'   => '*/sqlReports_result/delete',
                     'params' => array(),
                 ),
                 'field'   => 'id'

@@ -9,7 +9,6 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
         $this->setId('reportsGrid');
         $this->setDefaultSort('report_id');
         $this->setDefaultDir('ASC');
-        $this->setSaveParametersInSession(true);
 
         // TODO: remove this direct helper access and replace with an action element in the layout XML
         $this->setAllowEdit(Mage::helper('cleansql')->getAllowEdit());
@@ -18,11 +17,13 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
 
     protected function _prepareCollection()
     {
-        /** @var $collection Clean_SqlReports_Model_Mysql4_Report_Collection */
-        $collection = Mage::getModel('cleansql/report')->getCollection();
-        $collection->setOrder('title', 'ASC');
+        if (!$this->getCollection()) {
+            /** @var $collection Clean_SqlReports_Model_Mysql4_Report_Collection */
+            $collection = Mage::getModel('cleansql/report')->getCollection();
+            $collection->setOrder('title', 'ASC');
 
-        $this->setCollection($collection);
+            $this->setCollection($collection);
+        }
 
         return parent::_prepareCollection();
     }
@@ -39,13 +40,13 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
 
         $actions = array(
             array(
-                'caption' => $this->__('Table'),
+                'caption' => $this->__('View'),
                 'url'     => array(
-                    'base'   => '*/*/viewtable',
+                    'base'   => '*/*/view',
                     'params' => array(),
                 ),
                 'field'   => 'id'
-            )
+            ),
         );
 
         if ($this->getAllowRun()) {
@@ -79,7 +80,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
                 'filter'     => false,
                 'type'       => 'action',
                 'actions'    => $actions,
-                'link_limit' => 3,
+                'link_limit' => 4,
             )
         );
 

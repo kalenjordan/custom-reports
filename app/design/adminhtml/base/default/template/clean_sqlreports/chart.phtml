@@ -1,6 +1,7 @@
 <?php
-    /* @var $this Clean_SqlReports_Block_Adminhtml_Report_Chart */
-    $report = $this->_getReport(); /* @var $report Clean_SqlReports_Model_Report */
+/* @var $this Clean_SqlReports_Block_Adminhtml_Report_Chart */
+$result = $this->getResult();
+$report = $result->getReport();
 ?>
 
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -35,14 +36,14 @@ google.setOnLoadCallback(function() {
 
                 <?php else: ?>
                     var data = google.visualization.arrayToDataTable(jsonData);
-                <?php endif; ?>
+                    <?php endif; ?>
 
-                var chart = new google.visualization.<?php echo $report->getOutputType(); ?>(document.getElementById('<?php echo $report->getChartDiv(); ?>'));
-                chart.draw(data, <?php echo $report->getChartConfig() ? $report->getChartConfig() : '{}'; ?>);
+                    var chart = new google.visualization.<?php echo $report->getOutputType(); ?>(document.getElementById('<?php echo $report->getChartDiv(); ?>'));
+                    chart.draw(data, <?php echo $report->getChartConfig() ? $report->getChartConfig() : '{}'; ?>);
+                }
             }
-        }
+        });
     });
-});
 </script>
 
 <div id="<?php echo $report->getChartDiv(); ?>"></div>

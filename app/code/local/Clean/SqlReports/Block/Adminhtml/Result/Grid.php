@@ -1,56 +1,47 @@
 <?php
 
-class Clean_SqlReports_Block_Adminhtml_Report_Result_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Clean_SqlReports_Block_Adminhtml_Result_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     protected $_sqlQueryResults;
 
     public function __construct()
     {
         parent::__construct();
-        $this->setId('reportsGrid');
-        $this->setSaveParametersInSession(true);
-        $this->addExportType('*/*/exportCsv', $this->__('CSV'));
-    }
 
-    /**
-     * @return Clean_SqlReports_Model_Report
-     */
-    protected function _getReport()
-    {
-        return Mage::registry('current_report');
+        $this->setId('reportsGrid');
+        $this->addExportType('*/*/exportCsv', $this->__('CSV'));
     }
 
     /**
      * @return Clean_SqlReports_Model_Result
      */
-    protected function _getResult()
+    protected function getResult()
     {
-        return Mage::registry('current_result');
+        return $this->_getHelper()->getCurrentResult();
     }
 
     /**
+     * @return Clean_SqlReports_Helper_Data
+     *
      * @author Lee Saferite <lee.saferite@aoe.com>
-     * @return Varien_Data_Collection_Db
      */
-    protected function _createCollection()
+    protected function _getHelper()
     {
-        return $this->_getResult()->getResultCollection();
+        return Mage::helper('cleansql');
     }
 
     protected function _prepareCollection()
     {
-        if (isset($this->_collection)) {
-            return $this->_collection;
+        if (!$this->getCollection()) {
+            $this->setCollection($this->getResult()->getResultCollection());
         }
 
-        $collection = $this->_createCollection();
-        $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
-        $rawColumnConfig = explode(',', $this->_getResult()->getColumnConfig());
+        $rawColumnConfig = explode(',', $this->getResult()->getColumnConfig());
         foreach ($rawColumnConfig as $entry) {
             $entry = explode(':', trim($entry));
             if(empty($entry[0])) {
@@ -65,8 +56,8 @@ class Clean_SqlReports_Block_Adminhtml_Report_Result_Grid extends Mage_Adminhtml
         }
 
         /** @var Varien_Db_Adapter_Interface $connection */
-        $connection = $this->_getResult()->getResource()->getReadConnection();
-        $tableInfo = $connection->describeTable($this->_getResult()->getResultTable());
+        $connection = $this->getResult()->getResource()->getReadConnection();
+        $tableInfo = $connection->describeTable($this->getResult()->getResultTable());
         foreach ($tableInfo as $columnKey => $columnData) {
             $type = (isset($columnConfig[$columnKey]['type']) ? $columnConfig[$columnKey]['type'] : $this->mapDdlTypeToColumnType($columnData['DATA_TYPE']));
             $header = (isset($columnConfig[$columnKey]['name']) ? $columnConfig[$columnKey]['name'] : Mage::helper('core')->__($columnKey));

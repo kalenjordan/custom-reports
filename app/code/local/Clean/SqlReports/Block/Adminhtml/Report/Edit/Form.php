@@ -29,7 +29,17 @@ class Clean_SqlReports_Block_Adminhtml_Report_Edit_Form extends Mage_Adminhtml_B
      */
     protected function _getReport()
     {
-        return Mage::registry('current_report');
+        return $this->_getHelper()->getCurrentReport();
+    }
+
+    /**
+     * @return Clean_SqlReports_Helper_Data
+     *
+     * @author Lee Saferite <lee.saferite@aoe.com>
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('cleansql');
     }
 
     protected function _addBaseFieldset()

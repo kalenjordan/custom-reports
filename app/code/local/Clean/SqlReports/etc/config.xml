@@ -47,7 +47,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <admin_cleansql before="Mage_Adminhtml">Clean_SqlReports</admin_cleansql>
+                        <Clean_SqlReports before="Mage_Adminhtml">Clean_SqlReports</Clean_SqlReports>
                     </modules>
                 </args>
             </adminhtml>
@@ -57,7 +57,7 @@
         <layout>
             <updates>
                 <cleansql>
-                    <file>clean_sqlreports/cleansql.xml</file>
+                    <file>clean_sqlreports.xml</file>
                 </cleansql>
             </updates>
         </layout>

@@ -6,6 +6,48 @@
  */
 class Clean_SqlReports_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    public function getCurrentReport()
+    {
+        /** @var Clean_SqlReports_Model_Report $model */
+        $model = Mage::registry('current_clean_sqlreports_report');
+
+        if (!$model instanceof Clean_SqlReports_Model_Report) {
+            $model = Mage::getModel('cleansql/report');
+            $this->setCurrentReport($model);
+        }
+
+        return $model;
+    }
+
+    public function setCurrentReport(Clean_SqlReports_Model_Report $model)
+    {
+        Mage::unregister('current_clean_sqlreports_report');
+        Mage::register('current_clean_sqlreports_report', $model);
+
+        return $this;
+    }
+
+    public function getCurrentResult()
+    {
+        /** @var Clean_SqlReports_Model_Result $model */
+        $model = Mage::registry('current_clean_sqlreports_result');
+
+        if (!$model instanceof Clean_SqlReports_Model_Result) {
+            $model = Mage::getModel('cleansql/result');
+            $this->setCurrentResult($model);
+        }
+
+        return $model;
+    }
+
+    public function setCurrentResult(Clean_SqlReports_Model_Result $model)
+    {
+        Mage::unregister('current_clean_sqlreports_result');
+        Mage::register('current_clean_sqlreports_result', $model);
+
+        return $this;
+    }
+
     /**
      * Return a flag indicating if the currently logged in admin user can view reports
      *

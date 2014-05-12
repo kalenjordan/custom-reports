@@ -7,15 +7,11 @@ class Clean_SqlReports_Block_Adminhtml_Report_View extends Mage_Adminhtml_Block_
      */
     public function __construct()
     {
-        $this->_controller = 'adminhtml_report_view';
-        $this->_blockGroup = 'cleansql';
-        $this->_headerText = Mage::helper('core')->__($this->_getReport()->getTitle());
-
+        $this->_headerText = $this->getReport()->getTitle();
         $this->_addButtonLabel = $this->__('Run');
 
         parent::__construct();
 
-        //$this->_removeButton('add');
         $this->_removeButton('search');
     }
 
@@ -32,8 +28,18 @@ class Clean_SqlReports_Block_Adminhtml_Report_View extends Mage_Adminhtml_Block_
     /**
      * @return Clean_SqlReports_Model_Report
      */
-    protected function _getReport()
+    protected function getReport()
     {
-        return Mage::registry('current_report');
+        return $this->_getHelper()->getCurrentReport();
+    }
+
+    /**
+     * @return Clean_SqlReports_Helper_Data
+     *
+     * @author Lee Saferite <lee.saferite@aoe.com>
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('cleansql');
     }
 }
