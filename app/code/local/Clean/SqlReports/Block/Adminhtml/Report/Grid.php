@@ -65,7 +65,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
                 'index'      => 'report_id',
                 'sortable'   => false,
                 'filter'     => false,
-                'type'       => 'view',
+                'type'       => 'action',
                 'actions'    => $actions,
                 'link_limit' => 3,
             )
