@@ -38,7 +38,7 @@ class Clean_SqlReports_Model_Config_OutputType extends Mage_Core_Model_Config_Da
         $helper = Mage::helper('cleansql');
         
         return array(
-            array("title"  => $helper->__('Plain Table'), 'label' => $helper->__('Plain Table'), 'value' => null),
+            array("title"  => $helper->__('Plain Table'), 'label' => $helper->__('Plain Table'), 'value' => self::TYPE_PLAIN_TABLE),
             array("title"  => $helper->__('Simple Charts'), 'label' => $helper->__('Simple Charts'), 'value' => array(
                 array('value' =>self::TYPE_PIE_CHART, 'title' => $helper->__('Pie Chart'), 'label' => $helper->__('Pie Chart')),
                 array('value' =>self::TYPE_BAR_CHART, 'title' => $helper->__('Bar Chart'), 'label' => $helper->__('Bar Chart')),
