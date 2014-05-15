@@ -30,7 +30,21 @@ class Clean_SqlReports_Model_Report extends Mage_Core_Model_Abstract
         return $collection;
     }
 
-    public function getChartDiv() {
+    public function getChartDiv()
+    {
         return 'chart_' . $this->getId();
+    }
+
+    public function hasChart()
+    {
+        if (! $this->getOutputType()) {
+            return false;
+        }
+
+        if ($this->getOutputType() == Clean_SqlReports_Model_Config_OutputType::TYPE_PLAIN_TABLE) {
+            return false;
+        }
+
+        return true;
     }
 }

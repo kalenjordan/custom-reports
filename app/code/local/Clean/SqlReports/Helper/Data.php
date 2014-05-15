@@ -41,4 +41,17 @@ class Clean_SqlReports_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getSingleton('admin/session');
     }
+
+    /**
+     * @param $report Clean_SqlReports_Model_Report
+     * @return bool
+     */
+    public function getPrimaryReportRoute($report)
+    {
+        if ($report->hasChart()) {
+            return 'viewChart';
+        } else {
+            return 'viewTable';
+        }
+    }
 }

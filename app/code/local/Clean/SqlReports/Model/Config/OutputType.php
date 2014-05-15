@@ -30,11 +30,15 @@ class Clean_SqlReports_Model_Config_OutputType extends Mage_Core_Model_Config_Da
     const TYPE_TIMELINE_CHART   = 'Timeline';
     const TYPE_HISTOGRAM_CHART  = 'Histogram';
 
+    // Plain Magento table
+    const TYPE_PLAIN_TABLE      = 'PlainTable';
+
     public function toOptionArray()
     {
         $helper = Mage::helper('cleansql');
         
         return array(
+            array("title"  => $helper->__('Plain Table'), 'label' => $helper->__('Plain Table'), 'value' => null),
             array("title"  => $helper->__('Simple Charts'), 'label' => $helper->__('Simple Charts'), 'value' => array(
                 array('value' =>self::TYPE_PIE_CHART, 'title' => $helper->__('Pie Chart'), 'label' => $helper->__('Pie Chart')),
                 array('value' =>self::TYPE_BAR_CHART, 'title' => $helper->__('Bar Chart'), 'label' => $helper->__('Bar Chart')),
