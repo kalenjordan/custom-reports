@@ -18,7 +18,6 @@
                     <action method="setColumnRenderers">
                         <renderers>
                             <action>cleansql/adminhtml_widget_grid_column_renderer_action</action>
-                            <view>cleansql/adminhtml_widget_grid_column_renderer_action_view</view>
                         </renderers>
                     </action>
                 </block>
