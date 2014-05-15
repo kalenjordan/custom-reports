@@ -1,43 +1,57 @@
 <?xml version="1.0"?>
 
 <layout>
-    <admin_cleansql_adminhtml_report>
+    
+    <adminhtml_adminhtml_report>
         <reference name="menu">
             <action method="setActive">
                 <path>report/cleansql</path>
             </action>
         </reference>
-    </admin_cleansql_adminhtml_report>
-    <admin_cleansql_adminhtml_report_index>
-        <update handle="admin_cleansql_adminhtml_report" />
+    </adminhtml_adminhtml_report>
+    
+    <adminhtml_adminhtml_report_index>
+        <update handle="adminhtml_adminhtml_report" />
         <reference name="content">
             <block type="cleansql/adminhtml_report" name="report">
                 <block type="cleansql/adminhtml_report_grid" name="report.grid" as="grid">
                     <action method="setColumnRenderers">
                         <renderers>
                             <action>cleansql/adminhtml_widget_grid_column_renderer_action</action>
+                            <view>cleansql/adminhtml_widget_grid_column_renderer_action_view</view>
                         </renderers>
                     </action>
                 </block>
             </block>
         </reference>
-    </admin_cleansql_adminhtml_report_index>
-    <admin_cleansql_adminhtml_report_edit>
-        <update handle="admin_cleansql_adminhtml_report" />
+    </adminhtml_adminhtml_report_index>
+    
+    <adminhtml_adminhtml_report_edit>
+        <update handle="adminhtml_adminhtml_report" />
         <reference name="content">
             <block type="cleansql/adminhtml_report_edit" name="report_edit" />
         </reference>
-    </admin_cleansql_adminhtml_report_edit>
-    <admin_cleansql_adminhtml_report_view>
-        <update handle="admin_cleansql_adminhtml_report" />
+    </adminhtml_adminhtml_report_edit>
+    
+    <adminhtml_adminhtml_report_viewtable>
+        <update handle="adminhtml_adminhtml_report" />
         <reference name="content">
             <block type="cleansql/adminhtml_report_view" name="report.view">
                 <block type="cleansql/adminhtml_report_view_grid" name="report.view.grid" as="grid" />
             </block>
         </reference>
-    </admin_cleansql_adminhtml_report_view>
-    <admin_cleansql_adminhtml_report_exportcsv>
-        <update handle="admin_cleansql_adminhtml_report_view"/>
-    </admin_cleansql_adminhtml_report_exportcsv>
+    </adminhtml_adminhtml_report_viewtable>
+
+    <adminhtml_adminhtml_report_viewchart>
+        <update handle="adminhtml_adminhtml_report" />
+        <reference name="content">
+            <block type="cleansql/adminhtml_report_chart" name="report.chart" />
+        </reference>
+    </adminhtml_adminhtml_report_viewchart>
+    
+    <adminhtml_adminhtml_report_exportcsv>
+        <update handle="adminhtml_adminhtml_report_view"/>
+    </adminhtml_adminhtml_report_exportcsv>
+    
 </layout>
 

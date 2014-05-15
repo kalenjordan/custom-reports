@@ -31,7 +31,16 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
         $this->renderLayout();
     }
 
-    public function viewAction()
+    public function viewtableAction()
+    {
+        Mage::register('current_report', $this->_getReport());
+        $this->_title($this->_getReport()->getTitle());
+
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    public function viewchartAction()
     {
         Mage::register('current_report', $this->_getReport());
         $this->_title($this->_getReport()->getTitle());
@@ -60,7 +69,7 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
         $report = $this->_getReport();
         if (!$report->getId()) {
             Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Wasn't able to find the report"));
-            $this->_redirect('admin_cleansql/adminhtml_report');
+            $this->_redirect('adminhtml/adminhtml_report');
             return $this;
         }
 
@@ -95,6 +104,28 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
             $grid->getCsvFile(),
             'text/csv'
         );
+    }
+
+    /**
+     * Get JSON action
+     *
+     * @return void
+     */
+    public function getJsonAction() {
+        try {
+            $report = $this->_getReport();
+
+            if ($report->getOutputType() == Clean_SqlReports_Model_Config_OutputType::TYPE_CALENDAR_CHART) {
+                $json = $report->getReportCollection()->toCalendarJson();
+            } else {
+                $json = $report->getReportCollection()->toReportJson();
+            }
+            $this->getResponse()->setBody($json);
+            $this->getResponse()->setHeader('Content-type', 'application/json');
+        } catch (Exception $e) {
+            $this->getResponse()->setBody(json_encode(array('error' => $e->getMessage())));
+            $this->getResponse()->setHeader('Content-type', 'application/json');
+        }
     }
 
     /**

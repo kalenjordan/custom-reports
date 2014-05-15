@@ -38,9 +38,17 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
 
         $actions = array(
             array(
-                'caption' => $this->__('View'),
+                'caption' => $this->__('Chart'),
                 'url'     => array(
-                    'base'   => '*/*/view',
+                    'base'   => '*/*/viewchart',
+                    'params' => array(),
+                ),
+                'field'   => 'report_id'
+            ),
+            array(
+                'caption' => $this->__('Table'),
+                'url'     => array(
+                    'base'   => '*/*/viewtable',
                     'params' => array(),
                 ),
                 'field'   => 'report_id'
@@ -65,9 +73,9 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
                 'index'      => 'report_id',
                 'sortable'   => false,
                 'filter'     => false,
-                'type'       => 'action',
+                'type'       => 'view',
                 'actions'    => $actions,
-                'link_limit' => 2,
+                'link_limit' => 3,
             )
         );
 
@@ -75,12 +83,12 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
     }
 
     /**
-     * @param $item Clean_SqlReports_Model_Report
-     *
+     * @param Clean_SqlReports_Model_Report $item
      * @return string
      */
     public function getRowUrl($item)
     {
-        return $this->getUrl('*/*/view', array('report_id' => $item->getId()));
+        $route = Mage::helper('cleansql')->getPrimaryReportRoute($item);
+        return $this->getUrl("*/*/$route", array('report_id' => $item->getId()));
     }
 }

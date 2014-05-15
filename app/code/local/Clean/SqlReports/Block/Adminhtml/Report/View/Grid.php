@@ -37,15 +37,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
      */
     protected function _createCollection()
     {
-        $report = $this->_getReport();
-
-        /** @var $connection Varien_Db_Adapter_Interface */
-        $connection = Mage::getSingleton('core/resource')->getConnection('core_read');
-
-        $collection = new Varien_Data_Collection_Db($connection);
-        $collection->getSelect()->from(new Zend_Db_Expr("(" . $report->getData('sql_query') . ")"));
-
-        return $collection;
+        return $this->_getReport()->getReportCollection();
     }
 
     protected function _prepareCollection()
