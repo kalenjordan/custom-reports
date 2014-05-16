@@ -22,10 +22,14 @@ class Clean_SqlReports_Model_Report extends Mage_Core_Model_Abstract
     {
         /** @var Mage_Core_Model_Resource $resource */
         $resource = Mage::getSingleton('core/resource');
-        $connection = $resource->getConnection('core_read');
-
-        $collection = new Clean_SqlReports_Model_ReportCollection($connection);
-        $collection->getSelect()->from(new Zend_Db_Expr("(" . $this->getData('sql_query') . ")"));
+        $connectionName = Mage::getStoreConfig('reports/cleansql/default_connection');
+        if (!$connectionName) {
+            $connectionName = 'core_read';
+        }
+        $connection = $resource->getConnection($connectionName);
+            
+        $collection = Mage::getModel('cleansql/reportCollection', $connection);
+        $collection->getSelect()->from(new Zend_Db_Expr('(' . $this->getData('sql_query') . ')'));
 
         return $collection;
     }
