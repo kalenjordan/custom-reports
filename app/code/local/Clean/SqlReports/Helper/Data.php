@@ -54,4 +54,27 @@ class Clean_SqlReports_Helper_Data extends Mage_Core_Helper_Abstract
             return 'viewTable';
         }
     }
+    /**
+     * get active db connection resource config nodes
+     * @return Mage_Core_Model_Config_Element
+     */
+    public function getConnectionResourceConfig()
+    {
+        $resourceConfig = Mage::getConfig()->getXpath('global/resources/*[child::connection and descendant::active=1]');
+        return $resourceConfig;
+    }
+    /**
+     * get default connection resource model
+     * @return Magento_Db_Adapter_Pdo_Mysql
+     */
+    public function getDefaultConnection()
+    {
+        /* @var $resource Mage_Core_Model_Resource */
+        $resource       = Mage::getSingleton('core/resource');
+        $connectionName = Mage::getStoreConfig('reports/cleansql/default_connection');
+        if (!$connectionName) {
+            $connectionName = 'core_read';
+        }
+        return $resource->getConnection($connectionName);
+    }
 }

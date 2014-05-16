@@ -35,6 +35,7 @@ Easily create reports with custom SQL queries and display them using the magento
 - Kalen Jordan
 - Lee Saferite
 - Tom Steigerwald
+- Rolando Granadino
 
 
 #### **Known Issues**

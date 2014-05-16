@@ -11,8 +11,7 @@ class Clean_SqlReports_Model_Config_Connections
      */
     public function toOptionArray()
     {
-        /* @var $resourceConfig Mage_Core_Model_Config_Element */
-        $resourceConfig = Mage::getConfig()->getXpath('global/resources/*[child::connection and descendant::active=1]');
+        $resourceConfig = Mage::helper('cleansql')->getConnectionResourceConfig();
         $options        = array();
 
         foreach ($resourceConfig as $connNode) {
