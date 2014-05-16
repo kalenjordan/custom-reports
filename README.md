@@ -14,6 +14,7 @@ Easily create reports with custom SQL queries and display them using the magento
          - `UNIX_TIMESTAMP(date([[date field]]))`
 - Control access to viewing, editing, and creation of reports in Magento ACL list.
 - Cache results in dynamically created tables for performance and historical reasons. 
+- Select separate database connection to run queries against
 
 #### **TO DO**
 - Fix the calendar chart to support more than 1 year.
@@ -26,6 +27,7 @@ Easily create reports with custom SQL queries and display them using the magento
  - Sales by Month (Bar Chart)
  - Sales By Day (Calendar Chart)
  - Sales by Month (Column Chart)
+- Add ability to select database resource per report (?)
 
 #### **Contributors**
 - Allan MacGregor
@@ -33,6 +35,7 @@ Easily create reports with custom SQL queries and display them using the magento
 - Kalen Jordan
 - Lee Saferite
 - Tom Steigerwald
+- Rolando Granadino
 
 
 #### **Known Issues**
