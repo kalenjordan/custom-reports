@@ -8,6 +8,8 @@
 
 <?php if ($report->getOutputType() == Clean_SqlReports_Model_Config_OutputType::TYPE_CALENDAR_CHART): ?>
     google.load("visualization", "1.1", {packages:["calendar"]});
+<?php elseif ($report->getOutputType() == Clean_SqlReports_Model_Config_OutputType::TYPE_GEO_CHART): ?>
+    google.load('visualization', '1.0', {'packages': ['geochart']});
 <?php else: ?>
     google.load('visualization', '1.0', {'packages': ['corechart']});
 <?php endif; ?>
