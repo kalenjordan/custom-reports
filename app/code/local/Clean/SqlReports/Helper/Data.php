@@ -6,6 +6,69 @@
  */
 class Clean_SqlReports_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    public function getCurrentReport()
+    {
+        /** @var Clean_SqlReports_Model_Report $model */
+        $model = Mage::registry('current_clean_sqlreports_report');
+
+        if (!$model instanceof Clean_SqlReports_Model_Report) {
+            $model = Mage::getModel('cleansql/report');
+            $this->setCurrentReport($model);
+        }
+
+        return $model;
+    }
+
+    public function setCurrentReport(Clean_SqlReports_Model_Report $model)
+    {
+        Mage::unregister('current_clean_sqlreports_report');
+        Mage::register('current_clean_sqlreports_report', $model);
+
+        return $this;
+    }
+
+    public function getCurrentResult()
+    {
+        /** @var Clean_SqlReports_Model_Result $model */
+        $model = Mage::registry('current_clean_sqlreports_result');
+
+        if (!$model instanceof Clean_SqlReports_Model_Result) {
+            $model = Mage::getModel('cleansql/result');
+            $this->setCurrentResult($model);
+        }
+
+        return $model;
+    }
+
+    public function setCurrentResult(Clean_SqlReports_Model_Result $model)
+    {
+        Mage::unregister('current_clean_sqlreports_result');
+        Mage::register('current_clean_sqlreports_result', $model);
+
+        return $this;
+    }
+
+    public function getCurrentChart()
+    {
+        /** @var Clean_SqlReports_Model_Chart $model */
+        $model = Mage::registry('current_clean_sqlreports_chart');
+
+        if (!$model instanceof Clean_SqlReports_Model_Chart) {
+            $model = Mage::getModel('cleansql/chart');
+            $this->setCurrentChart($model);
+        }
+
+        return $model;
+    }
+
+    public function setCurrentChart(Clean_SqlReports_Model_Chart $model)
+    {
+        Mage::unregister('current_clean_sqlreports_chart');
+        Mage::register('current_clean_sqlreports_chart', $model);
+
+        return $this;
+    }
+
     /**
      * Return a flag indicating if the currently logged in admin user can view reports
      *
@@ -16,6 +79,18 @@ class Clean_SqlReports_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAllowView()
     {
         return $this->getAdminSession()->isAllowed('report/cleansql');
+    }
+
+    /**
+     * Return a flag indicating if the currently logged in admin user can run reports
+     *
+     * @return bool
+     *
+     * @author Lee Saferite <lee.saferite@aoe.com>
+     */
+    public function getAllowRun()
+    {
+        return $this->getAdminSession()->isAllowed('report/cleansql/run');
     }
 
     /**
@@ -40,41 +115,5 @@ class Clean_SqlReports_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAdminSession()
     {
         return Mage::getSingleton('admin/session');
-    }
-
-    /**
-     * @param $report Clean_SqlReports_Model_Report
-     * @return bool
-     */
-    public function getPrimaryReportRoute($report)
-    {
-        if ($report->hasChart()) {
-            return 'viewChart';
-        } else {
-            return 'viewTable';
-        }
-    }
-    /**
-     * get active db connection resource config nodes
-     * @return Mage_Core_Model_Config_Element
-     */
-    public function getConnectionResourceConfig()
-    {
-        $resourceConfig = Mage::getConfig()->getXpath('global/resources/*[child::connection and descendant::active=1]');
-        return $resourceConfig;
-    }
-    /**
-     * get default connection resource model
-     * @return Magento_Db_Adapter_Pdo_Mysql
-     */
-    public function getDefaultConnection()
-    {
-        /* @var $resource Mage_Core_Model_Resource */
-        $resource       = Mage::getSingleton('core/resource');
-        $connectionName = Mage::getStoreConfig('reports/cleansql/default_connection');
-        if (!$connectionName) {
-            $connectionName = 'core_read';
-        }
-        return $resource->getConnection($connectionName);
     }
 }

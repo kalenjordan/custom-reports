@@ -11,7 +11,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Edit_Form extends Mage_Adminhtml_B
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form(
-            array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post')
+            array('id' => 'edit_form', 'action' => $this->getUrl('*/*/save', array('id' => $this->_getReport()->getId())), 'method' => 'post')
         );
 
         $form->setData('use_container', true);
@@ -29,17 +29,23 @@ class Clean_SqlReports_Block_Adminhtml_Report_Edit_Form extends Mage_Adminhtml_B
      */
     protected function _getReport()
     {
-        return Mage::registry('current_report');
+        return $this->_getHelper()->getCurrentReport();
+    }
+
+    /**
+     * @return Clean_SqlReports_Helper_Data
+     *
+     * @author Lee Saferite <lee.saferite@aoe.com>
+     */
+    protected function _getHelper()
+    {
+        return Mage::helper('cleansql');
     }
 
     protected function _addBaseFieldset()
     {
         $fieldset = $this->getForm()->addFieldset('base_fieldset', array(
             'legend'    => Mage::helper('core')->__('General'),
-        ));
-
-        $fieldset->addField('report_id', 'hidden', array(
-            'name'      => 'report_id',
         ));
 
         $fieldset->addField('title', 'text', array(
@@ -54,6 +60,17 @@ class Clean_SqlReports_Block_Adminhtml_Report_Edit_Form extends Mage_Adminhtml_B
             'required'  => true,
             'style'     => 'width: 640px; height: 200;'
         ));
+
+        $fieldset->addField(
+            'column_config',
+            'textarea',
+            array(
+                'name'     => 'report[column_config]',
+                'label'    => $this->__('Column Config'),
+                'required' => false,
+                'style'    => 'width: 640px; height: 240px;'
+            )
+        );
 
         // Start Refactor : Replace with predefined types and a source
         $fieldset->addField('output_type', 'select', array(

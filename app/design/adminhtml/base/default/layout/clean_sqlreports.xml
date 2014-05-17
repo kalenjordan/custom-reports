@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_sqlreports>
+        <reference name="menu">
+            <action method="setActive">
+                <path>report/cleansql</path>
+            </action>
+        </reference>
+    </adminhtml_sqlreports>
+
+    <adminhtml_sqlreports_report_index>
+        <update handle="adminhtml_sqlreports"/>
+        <reference name="content">
+            <block type="cleansql/adminhtml_report" name="sqlreports.report.list">
+                <block type="cleansql/adminhtml_report_grid" name="sqlreports.report.list.grid" as="grid">
+                    <action method="setColumnRenderers">
+                        <renderers>
+                            <action>cleansql/adminhtml_widget_grid_column_renderer_action</action>
+                        </renderers>
+                    </action>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_sqlreports_report_index>
+    <adminhtml_sqlreports_report_edit>
+        <update handle="adminhtml_sqlreports"/>
+        <reference name="content">
+            <block type="cleansql/adminhtml_report_edit" name="sqlreports.report.edit">
+                <block type="cleansql/adminhtml_report_edit_form" name="sqlreports.report.edit.form" as="form"/>
+            </block>
+        </reference>
+    </adminhtml_sqlreports_report_edit>
+    <adminhtml_sqlreports_report_view>
+        <update handle="adminhtml_sqlreports"/>
+        <reference name="content">
+            <block type="cleansql/adminhtml_report_view" name="sqlreports.report.view">
+                <block type="cleansql/adminhtml_report_view_grid" name="sqlreports.report.view.grid" as="grid">
+                    <action method="setColumnRenderers">
+                        <renderers>
+                            <action>cleansql/adminhtml_widget_grid_column_renderer_action</action>
+                        </renderers>
+                    </action>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_sqlreports_report_view>
+
+    <adminhtml_sqlreports_result_view>
+        <update handle="adminhtml_sqlreports"/>
+        <reference name="content">
+            <block type="cleansql/adminhtml_result" name="sqlreports.result.view">
+                <block type="cleansql/adminhtml_result_grid" name="sqlreports.result.view.grid" as="grid"/>
+            </block>
+        </reference>
+    </adminhtml_sqlreports_result_view>
+    <adminhtml_sqlreports_result_exportcsv>
+        <update handle="adminhtml_sqlreports_result_view"/>
+    </adminhtml_sqlreports_result_exportcsv>
+
+    <adminhtml_sqlreports_chart_index>
+        <update handle="adminhtml_sqlreports"/>
+        <reference name="content">
+            <block type="cleansql/adminhtml_chart" name="sqlreports.chart.list">
+                <block type="cleansql/adminhtml_chart_grid" name="sqlreports.chart.list.grid" as="grid">
+                    <action method="setColumnRenderers">
+                        <renderers>
+                            <action>cleansql/adminhtml_widget_grid_column_renderer_action</action>
+                        </renderers>
+                    </action>
+                    <action method="setAllowEdit">
+                        <flag helper="cleansql/getAllowEdit"/>
+                    </action>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_sqlreports_chart_index>
+    <adminhtml_sqlreports_chart_edit>
+        <update handle="adminhtml_sqlreports"/>
+        <reference name="content">
+            <block type="cleansql/adminhtml_chart_edit" name="sqlreports.chart.edit">
+                <action method="setChart">
+                    <chart helper="cleansql/getCurrentChart"/>
+                </action>
+                <block type="cleansql/adminhtml_chart_edit_form" name="sqlreports.chart.edit.form" as="form"/>
+            </block>
+        </reference>
+    </adminhtml_sqlreports_chart_edit>
+    <adminhtml_sqlreports_chart_view>
+        <update handle="adminhtml_sqlreports"/>
+        <reference name="content">
+            <block type="cleansql/adminhtml_chart_view" name="sqlreports.chart.view">
+                <action method="setChart">
+                    <chart helper="cleansql/getCurrentChart"/>
+                </action>
+            </block>
+        </reference>
+    </adminhtml_sqlreports_chart_view>
+</layout>
+

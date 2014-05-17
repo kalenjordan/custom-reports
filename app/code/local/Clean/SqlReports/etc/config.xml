@@ -2,10 +2,9 @@
 <config>
     <modules>
         <Clean_SqlReports>
-            <version>0.1.1</version>
+            <version>0.4.0</version>
         </Clean_SqlReports>
     </modules>
-
     <global>
         <blocks>
             <cleansql>
@@ -28,10 +27,15 @@
                     <report>
                         <table>cleansql_report</table>
                     </report>
+                    <result>
+                        <table>cleansql_result</table>
+                    </result>
+                    <chart>
+                        <table>cleansql_chart</table>
+                    </chart>
                 </entities>
             </cleansql_mysql4>
         </models>
-
         <resources>
             <Clean_SqlReports>
                 <setup>
@@ -41,25 +45,22 @@
             </Clean_SqlReports>
         </resources>
     </global>
-
     <admin>
         <routers>
             <adminhtml>
                 <args>
                     <modules>
-                        <admin_cleansql before="Mage_Adminhtml">Clean_SqlReports</admin_cleansql>
+                        <Clean_SqlReports before="Mage_Adminhtml">Clean_SqlReports</Clean_SqlReports>
                     </modules>
                 </args>
             </adminhtml>
         </routers>
     </admin>
-
-
     <adminhtml>
         <layout>
             <updates>
                 <cleansql>
-                    <file>clean_sqlreports/cleansql.xml</file>
+                    <file>clean_sqlreports.xml</file>
                 </cleansql>
             </updates>
         </layout>

@@ -1,13 +1,13 @@
 <?php
-
-class Clean_SqlReports_Block_Adminhtml_Report_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+/**
+ * @method Clean_SqlReports_Model_Chart getChart()
+ * @method Clean_SqlReports_Block_Adminhtml_Chart_Edit_Form setChart(Clean_SqlReports_Model_Chart $chart)
+ */
+class Clean_SqlReports_Block_Adminhtml_Chart_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     public function __construct()
     {
-        $this->_controller = 'adminhtml_report';
-        $this->_blockGroup = 'cleansql';
-
-        $this->_headerText = Mage::helper('core')->__('Edit Report');
+        $this->_headerText = $this->__('Edit Chart');
 
         parent::__construct();
 

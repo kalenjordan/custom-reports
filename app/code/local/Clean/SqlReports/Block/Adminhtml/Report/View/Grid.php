@@ -7,16 +7,19 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
     public function __construct()
     {
         parent::__construct();
+
         $this->setId('reportsGrid');
-        $this->setDefaultSort('report_id');
-        $this->setDefaultDir('ASC');
-        $this->setSaveParametersInSession(true);
-        $this->addExportType('*/*/exportCsv', $this->__('CSV'));
+        $this->setDefaultSort('created_at');
+        $this->setDefaultDir('DESC');
+
+        // TODO: remove this direct helper access and replace with an action element in the layout XML
+        $this->setAllowRun(Mage::helper('cleansql')->getAllowRun());
     }
 
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
+
         $this->unsetChild('search_button');
         $this->unsetChild('reset_filter_button');
 
@@ -26,52 +29,87 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
     /**
      * @return Clean_SqlReports_Model_Report
      */
-    protected function _getReport()
+    protected function getReport()
     {
-        return Mage::registry('current_report');
+        return $this->_getHelper()->getCurrentReport();
     }
 
     /**
+     * @return Clean_SqlReports_Helper_Data
+     *
      * @author Lee Saferite <lee.saferite@aoe.com>
-     * @return Varien_Data_Collection_Db
      */
-    protected function _createCollection()
+    protected function _getHelper()
     {
-        return $this->_getReport()->getReportCollection();
+        return Mage::helper('cleansql');
     }
 
     protected function _prepareCollection()
     {
-        if (isset($this->_collection)) {
-            return $this->_collection;
+        if (!$this->getCollection()) {
+            $collection = Mage::getModel('cleansql/result')->getCollection()
+                ->addFieldToFilter('report_id', $this->getReport()->geTId());
+
+            $this->setCollection($collection);
         }
 
-        $collection = $this->_createCollection();
-        $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
-        $collection = $this->_createCollection();
-        $collection->setPageSize(1);
-        $collection->load();
+        $this->addColumn(
+            'id',
+            array(
+                'type'   => 'number',
+                'header' => $this->__('ID'),
+                'index'  => 'id',
+            )
+        );
 
-        $items = $collection->getItems();
-        if (count($items)) {
-            $item = reset($items);
-            foreach ($item->getData() as $key => $val) {
-                $this->addColumn(
-                    $key,
-                    array(
-                        'header'   => Mage::helper('core')->__($key),
-                        'index'    => $key,
-                        'filter'   => false,
-                        'sortable' => true,
-                    )
-                );
-            }
+        $this->addColumn(
+            'created_at',
+            array(
+                'type'   => 'datetime',
+                'header' => $this->__('Created At'),
+                'index'  => 'created_at',
+            )
+        );
+
+        $actions = array(
+            array(
+                'caption' => $this->__('View'),
+                'url'     => array(
+                    'base'   => '*/sqlReports_result/view',
+                    'params' => array(),
+                ),
+                'field'   => 'id'
+            ),
+        );
+
+        if ($this->getAllowRun()) {
+            $actions[] = array(
+                'caption' => $this->__('Delete'),
+                'url'     => array(
+                    'base'   => '*/sqlReports_result/delete',
+                    'params' => array(),
+                ),
+                'field'   => 'id'
+            );
         }
+
+        $this->addColumn(
+            'action_view',
+            array(
+                'header'     => $this->__('Action'),
+                'index'      => 'id',
+                'sortable'   => false,
+                'filter'     => false,
+                'type'       => 'action',
+                'actions'    => $actions,
+                'link_limit' => 4,
+            )
+        );
 
         return parent::_prepareColumns();
     }

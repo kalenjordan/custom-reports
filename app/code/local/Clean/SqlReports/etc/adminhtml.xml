@@ -6,12 +6,22 @@
                 <cleansql>
                     <title>Special Reports</title>
                     <sort_order>999</sort_order>
-                    <action>adminhtml/adminhtml_report</action>
+                    <children>
+                        <reports>
+                            <title>Reports</title>
+                            <sort_order>100</sort_order>
+                            <action>adminhtml/sqlReports_report</action>
+                        </reports>
+                        <charts>
+                            <title>Charts</title>
+                            <sort_order>200</sort_order>
+                            <action>adminhtml/sqlReports_chart</action>
+                        </charts>
+                    </children>
                 </cleansql>
             </children>
         </report>
     </menu>
-
     <acl>
         <resources>
             <admin>
@@ -25,6 +35,10 @@
                                         <title>Add/Edit Reports (DANGEROUS)</title>
                                         <sort_order>10</sort_order>
                                     </edit>
+                                    <run translate="title">
+                                        <title>Run Reports</title>
+                                        <sort_order>10</sort_order>
+                                    </run>
                                 </children>
                             </cleansql>
                         </children>

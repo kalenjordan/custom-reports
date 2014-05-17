@@ -1,27 +1,21 @@
 <?php
 
-class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Clean_SqlReports_Block_Adminhtml_Chart_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
     {
         parent::__construct();
 
-        $this->setId('reportsGrid');
-        $this->setDefaultSort('report_id');
+        $this->setId('chartsGrid');
+        $this->setDefaultSort('title');
         $this->setDefaultDir('ASC');
-
-        // TODO: remove this direct helper access and replace with an action element in the layout XML
-        $this->setAllowEdit(Mage::helper('cleansql')->getAllowEdit());
-        $this->setAllowRun(Mage::helper('cleansql')->getAllowRun());
     }
 
     protected function _prepareCollection()
     {
         if (!$this->getCollection()) {
-            /** @var $collection Clean_SqlReports_Model_Mysql4_Report_Collection */
-            $collection = Mage::getModel('cleansql/report')->getCollection();
-            $collection->setOrder('title', 'ASC');
-
+            /** @var $collection Clean_SqlReports_Model_Mysql4_Chart_Collection */
+            $collection = Mage::getModel('cleansql/chart')->getCollection();
             $this->setCollection($collection);
         }
 
@@ -38,6 +32,16 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
             )
         );
 
+        $this->addColumn(
+            'report_id',
+            array(
+                'type'    => 'options',
+                'header'  => $this->__('Report'),
+                'index'   => 'report_id',
+                'options' => Mage::getModel('cleansql/report')->getCollection()->toOptionHash()
+            )
+        );
+
         $actions = array(
             array(
                 'caption' => $this->__('View'),
@@ -48,17 +52,6 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
                 'field'   => 'id'
             ),
         );
-
-        if ($this->getAllowRun()) {
-            $actions[] = array(
-                'caption' => $this->__('Run'),
-                'url'     => array(
-                    'base'   => '*/*/run',
-                    'params' => array(),
-                ),
-                'field'   => 'id'
-            );
-        }
 
         if ($this->getAllowEdit()) {
             $actions[] = array(
@@ -75,7 +68,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
             'action_view',
             array(
                 'header'     => $this->__('Action'),
-                'index'      => 'report_id',
+                'index'      => 'id',
                 'sortable'   => false,
                 'filter'     => false,
                 'type'       => 'action',
@@ -88,7 +81,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Block_
     }
 
     /**
-     * @param Clean_SqlReports_Model_Report $item
+     * @param $item Clean_SqlReports_Model_Report
      *
      * @return string
      */
