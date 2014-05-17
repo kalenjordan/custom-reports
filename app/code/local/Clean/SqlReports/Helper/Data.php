@@ -48,6 +48,27 @@ class Clean_SqlReports_Helper_Data extends Mage_Core_Helper_Abstract
         return $this;
     }
 
+    public function getCurrentChart()
+    {
+        /** @var Clean_SqlReports_Model_Chart $model */
+        $model = Mage::registry('current_clean_sqlreports_chart');
+
+        if (!$model instanceof Clean_SqlReports_Model_Chart) {
+            $model = Mage::getModel('cleansql/chart');
+            $this->setCurrentChart($model);
+        }
+
+        return $model;
+    }
+
+    public function setCurrentChart(Clean_SqlReports_Model_Chart $model)
+    {
+        Mage::unregister('current_clean_sqlreports_chart');
+        Mage::register('current_clean_sqlreports_chart', $model);
+
+        return $this;
+    }
+
     /**
      * Return a flag indicating if the currently logged in admin user can view reports
      *

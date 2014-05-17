@@ -129,22 +129,19 @@ class Clean_SqlReports_SqlReports_ReportController extends Mage_Adminhtml_Contro
 
     protected function _isAllowed()
     {
-        /** @var Clean_SqlReports_Helper_Data $helper */
-        $helper = Mage::helper('cleansql');
-
         switch ($this->getRequest()->getActionName()) {
             case 'index':
             case 'view':
-                return $helper->getAllowView();
+                return $this->getHelper()->getAllowView();
                 break;
             case 'new':
             case 'edit':
             case 'save':
             case 'delete':
-                return $helper->getAllowEdit();
+                return $this->getHelper()->getAllowEdit();
                 break;
             case 'run':
-                return $helper->getAllowRun();
+                return $this->getHelper()->getAllowRun();
                 break;
             default:
                 return false;

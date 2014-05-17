@@ -52,11 +52,6 @@ class Clean_SqlReports_Model_Report extends Mage_Core_Model_Abstract
             ->getFirstItem();
     }
 
-    public function getChartDiv()
-    {
-        return 'chart_' . $this->getId();
-    }
-
     protected function _beforeSave()
     {
         parent::_beforeSave();

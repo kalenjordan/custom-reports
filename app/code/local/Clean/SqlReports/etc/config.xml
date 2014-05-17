@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Clean_SqlReports>
-            <version>0.3.0</version>
+            <version>0.4.0</version>
         </Clean_SqlReports>
     </modules>
     <global>
@@ -30,6 +30,9 @@
                     <result>
                         <table>cleansql_result</table>
                     </result>
+                    <chart>
+                        <table>cleansql_chart</table>
+                    </chart>
                 </entities>
             </cleansql_mysql4>
         </models>

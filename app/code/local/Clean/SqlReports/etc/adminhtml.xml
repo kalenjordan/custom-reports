@@ -6,7 +6,18 @@
                 <cleansql>
                     <title>Special Reports</title>
                     <sort_order>999</sort_order>
-                    <action>adminhtml/sqlReports_report</action>
+                    <children>
+                        <reports>
+                            <title>Reports</title>
+                            <sort_order>100</sort_order>
+                            <action>adminhtml/sqlReports_report</action>
+                        </reports>
+                        <charts>
+                            <title>Charts</title>
+                            <sort_order>200</sort_order>
+                            <action>adminhtml/sqlReports_chart</action>
+                        </charts>
+                    </children>
                 </cleansql>
             </children>
         </report>

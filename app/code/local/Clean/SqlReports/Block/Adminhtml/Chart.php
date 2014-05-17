@@ -1,31 +1,20 @@
 <?php
 
-class Clean_SqlReports_Block_Adminhtml_Chart extends Mage_Adminhtml_Block_Template
+class Clean_SqlReports_Block_Adminhtml_Chart extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
-    protected $_template = 'clean_sqlreports/chart.phtml';
-
     /**
-     * @return Clean_SqlReports_Model_Result
+     * Class constructor
      */
-    public function getResult()
+    public function __construct()
     {
-        return $this->_getHelper()->getCurrentResult();
+        $this->_headerText = Mage::helper('core')->__('Manage Charts');
+        $this->_addButtonLabel = Mage::helper('core')->__('Add Chart');
+
+        parent::__construct();
     }
 
-    /**
-     * @return Clean_SqlReports_Helper_Data
-     *
-     * @author Lee Saferite <lee.saferite@aoe.com>
-     */
-    protected function _getHelper()
+    protected function _prepareLayout()
     {
-        return Mage::helper('cleansql');
-    }
-
-    public function renderChart()
-    {
-        $result = $this->getResult();
-
-        return $result->getReport()->getChartConfig();
+        return Mage_Adminhtml_Block_Widget_Container::_prepareLayout();
     }
 }

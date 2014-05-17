@@ -78,17 +78,9 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
 
         $actions = array(
             array(
-                'caption' => $this->__('View Table'),
+                'caption' => $this->__('View'),
                 'url'     => array(
                     'base'   => '*/sqlReports_result/view',
-                    'params' => array(),
-                ),
-                'field'   => 'id'
-            ),
-            array(
-                'caption' => $this->__('View Chart'),
-                'url'     => array(
-                    'base'   => '*/sqlReports_chart/view',
                     'params' => array(),
                 ),
                 'field'   => 'id'
