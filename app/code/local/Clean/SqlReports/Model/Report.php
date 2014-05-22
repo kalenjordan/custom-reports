@@ -12,6 +12,11 @@
  */
 class Clean_SqlReports_Model_Report extends Mage_Core_Model_Abstract
 {
+    /**
+     * @var Clean_SqlReports_Model_Report_GridConfig
+     */
+    protected $_gridConfig = null;
+    
     public function _construct()
     {
         parent::_construct();
@@ -44,5 +49,19 @@ class Clean_SqlReports_Model_Report extends Mage_Core_Model_Abstract
         }
 
         return true;
+    }
+    /**
+     * @return Clean_SqlReports_Model_Report_GridConfig
+     */
+    public function getGridConfig()
+    {
+        if (!$this->_gridConfig) {
+            $config = json_decode($this->getData('grid_config'), true);
+            if (!is_array($config)) {
+                $config = array();
+            }
+            $this->_gridConfig = Mage::getModel('cleansql/report_gridConfig', $config);
+        }
+        return $this->_gridConfig;
     }
 }
