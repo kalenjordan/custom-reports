@@ -49,7 +49,7 @@
     </adminhtml_adminhtml_report_viewchart>
     
     <adminhtml_adminhtml_report_exportcsv>
-        <update handle="adminhtml_adminhtml_report_view"/>
+        <update handle="adminhtml_adminhtml_report_viewtable"/>
     </adminhtml_adminhtml_report_exportcsv>
     
 </layout>

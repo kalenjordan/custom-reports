@@ -69,5 +69,10 @@ class Clean_SqlReports_Block_Adminhtml_Report_Edit_Form extends Mage_Adminhtml_B
             'label'     => Mage::helper('core')->__('Chart Configuration'),
             'style'     => 'width: 640px; height: 200px;'
         ));
+        $fieldset->addField('grid_config', 'textarea', array(
+            'name'      => 'report[grid_config]',
+            'label'     => Mage::helper('core')->__('Grid Configuration'),
+            'style'     => 'width: 640px; height: 200px;'
+        ));
     }
 }
