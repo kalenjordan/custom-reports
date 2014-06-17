@@ -79,6 +79,13 @@ class Clean_SqlReports_Model_Result extends Mage_Core_Model_Abstract
         if ($this->getTableSuffix()) {
             $table = $this->getResultTable();
             if (!$this->getResource()->getReadConnection()->isTableExists($table)) {
+
+                foreach (array('start_date', 'end_date') as $date) {
+                    if ($this->hasData($date)) {
+                        $this->getResource()->getReadConnection()->query("SET @{$date} := '{$this->getData($date)}'");
+                    }
+                }
+
                 $this->getResource()->getReadConnection()->query("CREATE TABLE `{$table}` AS {$this->getReport()->getSqlQuery()}");
             }
         }

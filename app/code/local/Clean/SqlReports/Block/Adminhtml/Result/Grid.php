@@ -41,7 +41,7 @@ class Clean_SqlReports_Block_Adminhtml_Result_Grid extends Mage_Adminhtml_Block_
 
     protected function _prepareColumns()
     {
-        $rawColumnConfig = explode(',', $this->getResult()->getColumnConfig());
+        $rawColumnConfig = explode("\n", $this->getResult()->getColumnConfig());
         foreach ($rawColumnConfig as $entry) {
             $entry = explode(':', trim($entry));
             if(empty($entry[0])) {

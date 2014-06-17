@@ -58,9 +58,29 @@ class Clean_SqlReports_SqlReports_ReportController extends Mage_Adminhtml_Contro
             return;
         }
 
-        $result = $this->getReport()->run();
+        if ($this->needsDatesDefined()) {
+            $this->_getSession()->addNotice($this->__('Please specify the reporting period'));
+            $this->_redirect('*/*/defineDates', array('id' => $report->getId()));
+            return;
+        }
+
+        $result = $this->getReport()->run($this->getRequest()->getParams());
 
         $this->_redirect('*/sqlReports_result/view', array('id' => $result->getId()));
+    }
+
+    public function defineDatesAction()
+    {
+        $report = $this->getReport();
+        if (!$report->getId()) {
+            $this->_forward('noroute');
+            return;
+        }
+
+        $this->_title($this->__("Define Dates: %s", $report->getTitle()));
+
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     public function saveAction()
@@ -94,6 +114,19 @@ class Clean_SqlReports_SqlReports_ReportController extends Mage_Adminhtml_Contro
         $this->_redirect('*/*');
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function needsDatesDefined()
+    {
+        if ($this->getReport()->hasReportingPeriod()
+            && (!$this->getRequest()->getParam('start_date') || !$this->getRequest()->getParam('end_date'))
+        ) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -141,6 +174,7 @@ class Clean_SqlReports_SqlReports_ReportController extends Mage_Adminhtml_Contro
                 return $this->getHelper()->getAllowEdit();
                 break;
             case 'run':
+            case 'defineDates':
                 return $this->getHelper()->getAllowRun();
                 break;
             default:

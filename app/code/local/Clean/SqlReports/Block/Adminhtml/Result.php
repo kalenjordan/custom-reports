@@ -4,12 +4,25 @@ class Clean_SqlReports_Block_Adminhtml_Result extends Mage_Adminhtml_Block_Widge
 {
     public function __construct()
     {
-        $this->_headerText = $this->getResult()->getReport()->getTitle() . ' / ' . $this->getResult()->getCreatedAt();
+        $this->_headerText = sprintf('Report: %s<br/>Run: %s',$this->getResult()->getReport()->getTitle(), $this->getResult()->getCreatedAt());
+
+        if ($this->getResult()->hasStartDate() || $this->getResult()->hasEndDate()) {
+            $this->_headerText .= sprintf(
+                '</br>Period: %s to %s',
+                $this->getResult()->getStartDate(),
+                $this->getResult()->getEndDate()
+            );
+        }
 
         parent::__construct();
 
         $this->_removeButton('add');
         $this->_removeButton('search');
+        $this->_addButton('back', array(
+            'label'     => $this->getBackButtonLabel(),
+            'onclick'   => 'setLocation(\'' . $this->getUrl('*/sqlReports_report/') .'\')',
+            'class'     => 'back',
+        ));
     }
 
     protected function _prepareLayout()

@@ -9,6 +9,10 @@
  * @method Clean_SqlReports_Model_Report setSqlQuery(string $query)
  * @method getOutputType()
  * @method Clean_SqlReports_Model_Report setOutputType($value)
+ * @method Clean_SqlReports_Model_Report setStartDate(string $value)
+ * @method string getStartDate()
+ * @method Clean_SqlReports_Model_Report setEndDate(string $value)
+ * @method string getEndDate()
  *
  * @method Clean_SqlReports_Model_Report setChartConfig($value)
  */
@@ -23,20 +27,46 @@ class Clean_SqlReports_Model_Report extends Mage_Core_Model_Abstract
     /**
      * Run this report
      *
+     * @param array $data
      * @return Clean_SqlReports_Model_Result
      *
      * @author Lee Saferite <lee.saferite@aoe.com>
      */
-    public function run()
+    public function run($data = array())
     {
         /** @var Clean_SqlReports_Model_Result $result */
         $result = Mage::getModel('cleansql/result');
         $result->setReportId($this->getId());
         $result->setColumnConfig($this->getColumnConfig());
         $result->setCreatedAt(Mage::app()->getLocale()->storeDate(null, null, true));
+
+        if (isset($data['start_date'])) {
+            $result->setStartDate($data['start_date']);
+        }
+        if (isset($data['end_date'])) {
+            $result->setEndDate($data['end_date']);
+        }
+
         $result->save();
 
         return $result;
+    }
+
+    /**
+     * Check if the report sql contains reporting period variables
+     *
+     * @return bool
+     */
+    public function hasReportingPeriod()
+    {
+        $reportSql = $this->getSqlQuery();
+
+        if (strpos($reportSql, '@start_date') !== false
+            || strpos($reportSql, '@end_date') !== false
+        ) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -57,7 +87,7 @@ class Clean_SqlReports_Model_Report extends Mage_Core_Model_Abstract
         parent::_beforeSave();
 
         $columnConfig = $this->getColumnConfig();
-        $columnConfig = implode(',', array_filter(array_map('trim', explode("\n", $columnConfig))));
+        $columnConfig = implode("\n", array_filter(array_map('trim', explode("\n", $columnConfig))));
         $this->setColumnConfig($columnConfig);
 
         return $this;

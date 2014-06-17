@@ -30,6 +30,14 @@
             </block>
         </reference>
     </adminhtml_sqlreports_report_edit>
+    <adminhtml_sqlreports_report_definedates>
+        <update handle="adminhtml_sqlreports" />
+        <reference name="content">
+            <block type="cleansql/adminhtml_report_defineDates" name="sqlreports.report.defineDates">
+                <block type="cleansql/adminhtml_report_defineDates_form" name="sqlreports.report.defineDates.form" as="form"/>
+            </block>
+        </reference>
+    </adminhtml_sqlreports_report_definedates>
     <adminhtml_sqlreports_report_view>
         <update handle="adminhtml_sqlreports"/>
         <reference name="content">

@@ -73,6 +73,27 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
                 'type'   => 'datetime',
                 'header' => $this->__('Created At'),
                 'index'  => 'created_at',
+                'width'  => '200px'
+            )
+        );
+
+        $this->addColumn(
+            'start_date',
+            array(
+                'type'   => 'date',
+                'header' => $this->__('Report Period Start'),
+                'index'  => 'start_date',
+                'width'  => '200px'
+            )
+        );
+
+        $this->addColumn(
+            'end_date',
+            array(
+                'type'   => 'date',
+                'header' => $this->__('Report Period End'),
+                'index'  => 'end_date',
+                'width'  => '200px'
             )
         );
 
