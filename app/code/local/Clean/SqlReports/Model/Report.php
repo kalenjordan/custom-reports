@@ -87,7 +87,7 @@ class Clean_SqlReports_Model_Report extends Mage_Core_Model_Abstract
         parent::_beforeSave();
 
         $columnConfig = $this->getColumnConfig();
-        $columnConfig = implode("\n", array_filter(array_map('trim', explode("\n", $columnConfig))));
+        $columnConfig = implode("\n", array_filter(array_map('trim', explode("\n", str_replace(',', "\n", $columnConfig)))));
         $this->setColumnConfig($columnConfig);
 
         return $this;
