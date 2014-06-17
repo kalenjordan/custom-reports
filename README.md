@@ -5,6 +5,8 @@ Easily create reports with custom SQL queries and display them using the magento
 ### **Features**
 - Report result table
  -  Ability to define column configuration or allow auto configuration.
+     - Column configuration directives are seperated by newline and follow this syntax:
+        - `<column>:<type(string|null)>:<name(string|null)>:<filter(bool|null)>:<sort(bool|null)>`
 - The following Google Charts are currently supported, please see the examples:
  - [Pie Chart][2]
  - [Bar Chart][3] 
