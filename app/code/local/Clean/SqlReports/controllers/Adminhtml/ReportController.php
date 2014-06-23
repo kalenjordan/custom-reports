@@ -148,7 +148,7 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
 
     protected function _isAllowed()
     {
-        $isView = in_array($this->getRequest()->getActionName(), array('index', 'view'));
+        $isView = in_array($this->getRequest()->getActionName(), array('index', 'view', 'viewTable'));
 
         /** @var $helper Clean_SqlReport_Helper_Data */
         $helper = Mage::helper('cleansql');
