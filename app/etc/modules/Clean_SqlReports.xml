@@ -3,8 +3,7 @@
     <modules>
         <Clean_SqlReports>
             <active>true</active>
-            <codePool>local</codePool>
-            <depends></depends>
+            <codePool>community</codePool>
         </Clean_SqlReports>
     </modules>
 </config>

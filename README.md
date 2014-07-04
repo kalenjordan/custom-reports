@@ -7,13 +7,13 @@ Easily create reports with custom SQL queries and display them using the magento
  -  Ability to define column configuration or allow auto configuration.
 - The following Google Charts are currently supported, please see the examples:
  - [Pie Chart][2]
- - [Bar Chart][3] 
- - [Column Chart][4] 
+ - [Bar Chart][3]
+ - [Column Chart][4]
  - [Calendar Chart][5]
-     - When querying for the date, you must query the date using [UNIX_TIMESTAMP()][6] like the following:      
+     - When querying for the date, you must query the date using [UNIX_TIMESTAMP()][6] like the following:
          - `UNIX_TIMESTAMP(date([[date field]]))`
 - Control access to viewing, editing, and creation of reports in Magento ACL list.
-- Cache results in dynamically created tables for performance and historical reasons. 
+- Cache results in dynamically created tables for performance and historical reasons.
 - Select separate database connection to run queries against
 
 #### **TO DO**
@@ -23,7 +23,7 @@ Easily create reports with custom SQL queries and display them using the magento
 - Add the sample reports
  - New Customers (Calendar Chart)
  - Order Status (Pie Chart)
- - Order Status By Month (Stacked column chart) 
+ - Order Status By Month (Stacked column chart)
  - Sales by Month (Bar Chart)
  - Sales By Day (Calendar Chart)
  - Sales by Month (Column Chart)
@@ -36,17 +36,17 @@ Easily create reports with custom SQL queries and display them using the magento
 - Lee Saferite
 - Tom Steigerwald
 - Rolando Granadino
-
+- Cyrill Schumacher
 
 #### **Known Issues**
 - Calendar Chart only supports one year.
 
-#### **Disclaimer** 
+#### **Disclaimer**
  - **Use at your own risk.**
- - **This is a developer tool.** 
+ - **This is a developer tool.**
  - **We know you can drop tables.**
 
-#### 
+####
 
   [1]: https://developers.google.com/chart/
   [2]: https://developers.google.com/chart/interactive/docs/gallery/piechart
