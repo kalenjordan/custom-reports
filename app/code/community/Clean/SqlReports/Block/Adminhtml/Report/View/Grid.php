@@ -86,7 +86,9 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
             $item = reset($items);
             foreach ($item->getData() as $key => $val) {
                 $isFilterable = false;
-                if (in_array($key, $filterable)) {
+                if (array_key_exists($key, $filterable)) {
+                    $isFilterable = $filterable[$key];
+                } else if (in_array($key, $filterable)) {
                     $isFilterable = 'adminhtml/widget_grid_column_filter_text';
                 }
                 $this->addColumn(
