@@ -54,7 +54,6 @@
         </routers>
     </admin>
 
-
     <adminhtml>
         <layout>
             <updates>
@@ -64,4 +63,12 @@
             </updates>
         </layout>
     </adminhtml>
+
+    <default>
+        <reports>
+            <cleansql>
+                <max_reports_in_menu>15</max_reports_in_menu>
+            </cleansql>
+        </reports>
+    </default>
 </config>

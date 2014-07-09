@@ -22,6 +22,15 @@
                             <comment>It is recommended to configure a read only DB user with limited grants.</comment>
                             <source_model>cleansql/config_connections</source_model>
                         </default_connection>
+                        <max_reports_in_menu translate="label">
+                            <label>Max # of reports in menu</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-number</validate>
+                        </max_reports_in_menu>
                     </fields>
                 </cleansql>
             </groups>
