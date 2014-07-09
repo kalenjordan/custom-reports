@@ -2,43 +2,46 @@
 
 class Clean_SqlReports_Block_Adminhtml_Page_Menu extends Mage_Adminhtml_Block_Page_Menu
 {
-
     /**
-     * Recursive Build Menu array
-     *
-     * @param Varien_Simplexml_Element $parent
-     * @param string                   $path
-     * @param int                      $level
+     * Retrieve Adminhtml Menu array
      *
      * @return array
      */
-    protected function _buildMenuArray(Varien_Simplexml_Element $parent = null, $path = '', $level = 0)
+    public function getMenuArray()
     {
-        if (null === $parent) {
-            $parent = Mage::getSingleton('admin/config')->getAdminhtmlConfig()->getNode('menu');
-
-            if (isset($parent->children()->report)) {
-                /** @var Varien_Simplexml_Element $cleanNode */
-                $cleanNode = $parent->children()->report->children()->children->cleansql;
-                $this->_appendCleanSqlReports($cleanNode);
-            }
+        $menuArray = $this->_buildMenuArray();
+        if (isset($menuArray['report']) && isset($menuArray['report']['children']) && isset($menuArray['report']['children']['cleansql'])) {
+            $this->_appendCleanSqlReports($menuArray['report']['children']['cleansql']);
         }
-        return parent::_buildMenuArray($parent, $path, $level);
+        return $menuArray;
     }
 
     /**
-     * @param Varien_Simplexml_Element $node
+     * @param array $menuArray
      */
-    protected function _appendCleanSqlReports(Varien_Simplexml_Element $node)
+    protected function _appendCleanSqlReports(array &$menuArray)
     {
+        if (!isset($menuArray['children'])) {
+            $menuArray['children'] = array();
+        }
+
         $reportCollection = Mage::getModel('cleansql/report')->getCollection()->setOrder('title', 'ASC');
+        $reportCount      = $reportCollection->count();
+        $i                = 1;
         foreach ($reportCollection as $report) {
             /** @var $report Clean_SqlReports_Model_Report */
             $titleNodeName = $this->_getXmlTitle($report);
-            $node->setNode('children/' . $titleNodeName . '/title', $report->getTitle());
-            $route     = Mage::helper('cleansql')->getPrimaryReportRoute($report);
-            $fullRoute = '*/*/' . $route . '/report_id/' . $report->getId();
-            $node->setNode('children/' . $titleNodeName . '/action', $fullRoute);
+            $route         = Mage::helper('cleansql')->getPrimaryReportRoute($report);
+
+            $menuArray['children'][$titleNodeName] = array(
+                'label'      => $report->getTitle(),
+                'sort_order' => 0,
+                'url'        => $this->getUrl('*/*/' . $route, array('report_id' => $report->getId())),
+                'active'     => true,
+                'level'      => 2,
+                'last'       => $reportCount === $i,
+            );
+            $i++;
         }
     }
 
