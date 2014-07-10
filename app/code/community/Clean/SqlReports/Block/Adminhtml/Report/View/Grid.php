@@ -39,6 +39,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
     {
         return $this->_getReport()->getReportCollection();
     }
+
     /**
      * make an attempt to catch errors loading/preparing grid
      * for instance: if the query contains an `id` column which is non-unique
@@ -55,11 +56,11 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
 
         $collection = $this->_createCollection();
         $this->setCollection($collection);
-        
+
         try {
             parent::_prepareCollection();
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($this->__('An error occured rendering the grid: '.$e->getMessage()));
+            Mage::getSingleton('adminhtml/session')->addError($this->__('An error occured rendering the grid: ' . $e->getMessage()));
             Mage::logException($e);
             //abort rendering grid and replace collection with an empty one
             $this->setCollection(new Varien_Data_Collection());
@@ -74,19 +75,21 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
             $collection->setPageSize(1);
             $collection->load();
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($this->__('An error occured rendering the grid: '.$e->getMessage()));
+            Mage::getSingleton('adminhtml/session')->addError($this->__('An error occured rendering the grid: ' . $e->getMessage()));
             Mage::logException($e);
             $collection = new Varien_Data_Collection();
         }
-        
+
         $config     = $this->_getReport()->getGridConfig();
         $filterable = $config->getFilterable();
-        $items = $collection->getItems();
+        $items      = $collection->getItems();
         if (count($items)) {
             $item = reset($items);
             foreach ($item->getData() as $key => $val) {
                 $isFilterable = false;
-                if (in_array($key, $filterable)) {
+                if (isset($filterable[$key])) {
+                    $isFilterable = $filterable[$key];
+                } elseif (in_array($key, $filterable)) {
                     $isFilterable = 'adminhtml/widget_grid_column_filter_text';
                 }
                 $this->addColumn(
