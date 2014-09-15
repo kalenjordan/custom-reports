@@ -117,6 +117,8 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
 
             if ($report->getOutputType() == Clean_SqlReports_Model_Config_OutputType::TYPE_CALENDAR_CHART) {
                 $json = $report->getReportCollection()->toCalendarJson();
+            } elseif ($report->getOutputType() == Clean_SqlReports_Model_Config_OutputType::TYPE_LINE_CHART) {
+                $json = $report->getReportCollection()->toMultiLineReportJson();
             } else {
                 $json = $report->getReportCollection()->toReportJson();
             }

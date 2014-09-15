@@ -41,6 +41,57 @@ class Clean_SqlReports_Model_ReportCollection extends Varien_Data_Collection_Db
         return $jsonEncoded;
     }
 
+    /**
+     * @todo Refactor this heavily - this is just a rough work in progress
+     * @return mixed|string|void
+     */
+    public function toMultiLineReportJson()
+    {
+        $results = array();
+
+        /** @var $item Varien_Object */
+        foreach ($this as $item) {
+            $row = array();
+            foreach ($item->getData() as $key => $value) {
+                if (is_numeric($value)) {
+                    $value = (float)$value;
+                }
+                $row[] = $value;
+            }
+
+            $results[] = $row;
+        }
+
+        foreach ($results as $result) {
+
+            $sku = $result[0];
+            $hour = $result[1];
+            $quantity = $result[2];
+
+            $resultsBySku[$sku][$hour] = $quantity;
+        }
+
+        $firstSku = $results[0][0];
+        $firstResultBySku = $resultsBySku[$firstSku];
+
+        $newResult = array('Hour');
+        foreach ($resultsBySku as $sku => $resultsForSku) {
+            $newResult[] = $sku;
+        }
+        $newResults[] = $newResult;
+
+        foreach ($firstResultBySku as $hour => $quantity) {
+            $newResult = array($hour);
+            foreach ($resultsBySku as $sku => $resultsForSku) {
+                $newResult[] = $resultsForSku[$hour];
+            }
+            $newResults[] = $newResult;
+        }
+
+        $jsonEncoded = json_encode($newResults);
+        return $jsonEncoded;
+    }
+
     public function toCalendarJson() {
         $results = array();
         foreach ($this as $item) {

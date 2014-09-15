@@ -23,6 +23,9 @@ class Clean_SqlReports_Model_Report extends Mage_Core_Model_Abstract
         $this->_init('cleansql/report');
     }
 
+    /**
+     * @return Clean_SqlReports_Model_ReportCollection
+     */
     public function getReportCollection()
     {
         $connection = Mage::helper('cleansql')->getDefaultConnection();
