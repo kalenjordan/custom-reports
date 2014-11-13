@@ -28,6 +28,7 @@ Easily create reports with custom SQL queries and display them using the magento
  - Sales By Day (Calendar Chart)
  - Sales by Month (Column Chart)
 - Add ability to select database resource per report (?)
+- Better documentation...
 
 #### **Contributors**
 - Allan MacGregor
@@ -45,6 +46,30 @@ Easily create reports with custom SQL queries and display them using the magento
  - **Use at your own risk.**
  - **This is a developer tool.**
  - **We know you can drop tables.**
+
+#### **Grid Configuration Format**
+
+It's possible to make columns filterable by using the "Grid Configuraiton" option. This field expects a JSON oject with key/value pairs.
+There's two options to make a set of columns configurable, an array containing the names of the columns to be filtered:
+
+```
+{
+"filterable": ["customer_group", "region"]
+}
+```
+Or an object with key/value pairs of the column name and Magento admin block type. It is important that this be a valid block type otherwise the grid will fail to render.
+```
+{
+"filterable": {"created_at_date": "adminhtml/widget_grid_column_filter_date"}
+}
+```
+Here is a list of common filter block types:
+* `adminhtml/widget_grid_column_filter_datetime`
+* `adminhtml/widget_grid_column_filter_date`
+* `adminhtml/widget_grid_column_filter_range`
+* `adminhtml/widget_grid_column_filter_country`
+
+More can be found in `app/code/core/Magento/Adminhtml/Block/Widget/Grid/Column.php` within the `_getFilterByType` method.
 
 ####
 
