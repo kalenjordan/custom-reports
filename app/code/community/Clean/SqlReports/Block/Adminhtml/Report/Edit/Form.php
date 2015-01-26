@@ -52,7 +52,8 @@ class Clean_SqlReports_Block_Adminhtml_Report_Edit_Form extends Mage_Adminhtml_B
             'name'      => 'report[sql_query]',
             'label'     => Mage::helper('core')->__('SQL'),
             'required'  => true,
-            'style'     => 'width: 640px; height: 200;'
+            'style'     => 'width: 640px; height: 200;',
+            'note'      =>  Mage::helper('core')->__('NOTE: Do not include a semicolon terminator as the query will be executed as a subquery')
         ));
 
         // Start Refactor : Replace with predefined types and a source
