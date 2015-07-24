@@ -71,6 +71,11 @@ Here is a list of common filter block types:
 
 More can be found in `app/code/core/Magento/Adminhtml/Block/Widget/Grid/Column.php` within the `_getFilterByType` method.
 
+### License
+The license is currently <a href="https://tldrlegal.com/license/creative-commons-attribution-noncommercial-(cc-nc)#summary">Creative Commons Attribution NonCommercial</a>.  TL;DR is that you can modify and distribute but not for commercial use.
+
+Changed it on July 24 from OSL to this license because there was a company that started distributing it in a way that didn't seem kosher.  If you're legitimately interested in commercially redistributing it, I'd probably be fine with that - just get in touch.
+
 ####
 
   [1]: https://developers.google.com/chart/
