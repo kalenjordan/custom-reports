@@ -69,31 +69,30 @@ class Clean_SqlReports_Model_Report extends Mage_Core_Model_Abstract
 	 * Disallow TRUNCATE, DROP, DELETE statements & remove semicolon terminator
 	 */
 	protected function _beforeSave() {
-		
-		$disallowedPatterns = array(
+        $disallowedPatterns = array(
             'TRUNCATE TABLE',
             'DROP TABLE',
             'DROP TEMPORARY TABLE',
             'DELETE FROM'
-		);
+        );
 		
-		$sqlQuery = $this->getSqlQuery();
-		
-		if (substr($sqlQuery, -1) === ';') {
-			$this->setSqlQuery(substr($sqlQuery, 0, -1));
-			Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('cleansql')->__('Do not include a semicolon terminator'));
-		}
+        $sqlQuery = $this->getSqlQuery();
 
-		foreach ($disallowedPatterns as $pattern) {
-			if (stripos($sqlQuery, $pattern) !== false) {
+        if (substr($sqlQuery, -1) === ';') {
+            $this->setSqlQuery(substr($sqlQuery, 0, -1));
+            Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('cleansql')->__('Do not include a semicolon terminator'));
+        }
+
+        foreach ($disallowedPatterns as $pattern) {
+            if (stripos($sqlQuery, $pattern) !== false) {
 				$this->_dataSaveAllowed = false;
 				Mage::getSingleton('adminhtml/session')->addError(Mage::helper('cleansql')->__('TRUNCATE, DROP or DELETE statemanets are not allowed'));
 				return $this;
-			}
-		}
+		    }
+        }
 
-		Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('cleansql')->__('Saved report: %s', $this->getTitle()));
-		
-		return $this;		
+        Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('cleansql')->__('Saved report: %s', $this->getTitle()));
+
+        return $this;		
 	}
 }
