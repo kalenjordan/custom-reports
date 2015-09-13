@@ -57,8 +57,6 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
         $report->addData($postData['report']);
         $report->save();
 
-        Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Saved report: %s", $report->getTitle()));
-
         $this->_redirect('*/*');
 
         return $this;

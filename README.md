@@ -45,7 +45,7 @@ Easily create reports with custom SQL queries and display them using the magento
 #### **Disclaimer**
  - **Use at your own risk.**
  - **This is a developer tool.**
- - **We know you can drop tables.**
+ - **We know you can delete from tables.**
 
 #### **Grid Configuration Format**
 
