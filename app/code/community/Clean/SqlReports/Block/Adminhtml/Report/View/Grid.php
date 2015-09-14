@@ -14,15 +14,6 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
         $this->addExportType('*/*/exportCsv', $this->__('CSV'));
     }
 
-    protected function _prepareLayout()
-    {
-        parent::_prepareLayout();
-        $this->unsetChild('search_button');
-        $this->unsetChild('reset_filter_button');
-
-        return $this;
-    }
-
     /**
      * @return Clean_SqlReports_Model_Report
      */
