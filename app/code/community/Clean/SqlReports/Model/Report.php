@@ -64,19 +64,11 @@ class Clean_SqlReports_Model_Report extends Mage_Core_Model_Abstract
         }
         return $this->_gridConfig;
     }
-<<<<<<< HEAD
 
     /**
      * Disallow TRUNCATE, DROP, DELETE statements & remove semicolon terminator
      */
     protected function _beforeSave() {
-=======
-	
-	/**
-	 * Disallow TRUNCATE, DROP, DELETE statements & remove semicolon terminator
-	 */
-	protected function _beforeSave() {
->>>>>>> cd45fe2ff603f610f4b9358f6b185c9530e2e640
         $disallowedPatterns = array(
             'TRUNCATE TABLE',
             'DROP TABLE',
@@ -85,21 +77,12 @@ class Clean_SqlReports_Model_Report extends Mage_Core_Model_Abstract
         );
 		
         $sqlQuery = $this->getSqlQuery();
-<<<<<<< HEAD
 
         if (substr($sqlQuery, -1) === ';') {
             $this->setSqlQuery(substr($sqlQuery, 0, -1));
             Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('cleansql')->__('Do not include a semicolon terminator'));
         }
 
-=======
-
-        if (substr($sqlQuery, -1) === ';') {
-            $this->setSqlQuery(substr($sqlQuery, 0, -1));
-            Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('cleansql')->__('Do not include a semicolon terminator'));
-        }
-
->>>>>>> cd45fe2ff603f610f4b9358f6b185c9530e2e640
         foreach ($disallowedPatterns as $pattern) {
             if (stripos($sqlQuery, $pattern) !== false) {
 				$this->_dataSaveAllowed = false;
@@ -111,9 +94,5 @@ class Clean_SqlReports_Model_Report extends Mage_Core_Model_Abstract
         Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('cleansql')->__('Saved report: %s', $this->getTitle()));
 
         return $this;		
-<<<<<<< HEAD
     }
-=======
-	}
->>>>>>> cd45fe2ff603f610f4b9358f6b185c9530e2e640
 }
