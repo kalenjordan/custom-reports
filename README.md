@@ -69,7 +69,7 @@ Here is a list of common filter block types:
 * `adminhtml/widget_grid_column_filter_range`
 * `adminhtml/widget_grid_column_filter_country`
 
-More can be found in `app/code/core/Magento/Adminhtml/Block/Widget/Grid/Column.php` within the `_getFilterByType` method.
+More can be found in `app/code/core/Mage/Adminhtml/Block/Widget/Grid/Column.php` within the `_getFilterByType` method.
 
 ### License
 The license is currently <a href="https://tldrlegal.com/license/creative-commons-attribution-noncommercial-(cc-nc)#summary">Creative Commons Attribution NonCommercial</a>.  TL;DR is that you can modify and distribute but not for commercial use.
