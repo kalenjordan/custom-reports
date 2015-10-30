@@ -49,7 +49,7 @@ Easily create reports with custom SQL queries and display them using the magento
 
 #### **Grid Configuration Format**
 
-It's possible to make columns filterable by using the "Grid Configuraiton" option. This field expects a JSON oject with key/value pairs.
+It's possible to make columns filterable by using the "Grid Configuration" option. This field expects a JSON oject with key/value pairs.
 There's two options to make a set of columns configurable, an array containing the names of the columns to be filtered:
 
 ```
