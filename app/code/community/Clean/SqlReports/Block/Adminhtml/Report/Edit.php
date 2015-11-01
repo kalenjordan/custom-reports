@@ -13,6 +13,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Edit extends Mage_Adminhtml_Block_
         parent::__construct();
 
         $this->_addDeleteButton();
+        $this->_addSaveAndContinueEditButton();
 
         $this->_removeButton('reset');
     }
@@ -26,5 +27,15 @@ class Clean_SqlReports_Block_Adminhtml_Report_Edit extends Mage_Adminhtml_Block_
             'onclick'   => "deleteConfirm('$confirmText', '$deleteUrl');",
             'class'     => 'save',
         ));
+    }
+
+    protected function _addSaveAndContinueEditButton()
+    {
+        $url = $this->getSaveUrl() . 'back/edit';
+        $this->_addButton('saveandcontinue', array(
+            'label'     => 'Save and Continue Edit',
+            'onclick'   => 'editForm.submit(\'' . $url . '\')',
+            'class'     => 'save'
+        ), -100);
     }
 }
