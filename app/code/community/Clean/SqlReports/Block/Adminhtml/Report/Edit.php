@@ -25,7 +25,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Edit extends Mage_Adminhtml_Block_
         $this->_addButton('delete', array(
             'label'     => 'Delete',
             'onclick'   => "deleteConfirm('$confirmText', '$deleteUrl');",
-            'class'     => 'save',
+            'class'     => 'delete',
         ));
     }
 
