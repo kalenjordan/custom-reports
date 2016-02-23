@@ -1,11 +1,11 @@
 <?php
 
-class Clean_SqlReports_Block_Adminhtml_Report_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Clean_SqlReports_Block_Adminhtml_Customreport_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     public function __construct()
     {
         $this->_objectId = 'report_id';
-        $this->_controller = 'adminhtml_report';
+        $this->_controller = 'adminhtml_customreport';
         $this->_blockGroup = 'cleansql';
 
         $this->_headerText = Mage::helper('core')->__('Edit Report');

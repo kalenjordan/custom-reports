@@ -21,7 +21,7 @@
         <update handle="adminhtml_adminhtml_customreport"/>
         <reference name="content">
             <block type="cleansql/adminhtml_report" name="report">
-                <block type="cleansql/adminhtml_report_grid" name="report.grid" as="grid">
+                <block type="cleansql/adminhtml_customreport_grid" name="report.grid" as="grid">
                     <action method="setColumnRenderers">
                         <renderers>
                             <action>cleansql/adminhtml_widget_grid_column_renderer_action</action>
@@ -35,15 +35,15 @@
     <adminhtml_adminhtml_customreport_edit>
         <update handle="adminhtml_adminhtml_customreport"/>
         <reference name="content">
-            <block type="cleansql/adminhtml_report_edit" name="report_edit"/>
+            <block type="cleansql/adminhtml_customreport_edit" name="report_edit"/>
         </reference>
     </adminhtml_adminhtml_customreport_edit>
 
     <adminhtml_adminhtml_customreport_viewtable>
         <update handle="adminhtml_adminhtml_customreport"/>
         <reference name="content">
-            <block type="cleansql/adminhtml_report_view" name="report.view">
-                <block type="cleansql/adminhtml_report_view_grid" name="report.view.grid" as="grid"/>
+            <block type="cleansql/adminhtml_customreport_view" name="report.view">
+                <block type="cleansql/adminhtml_customreport_view_grid" name="report.view.grid" as="grid"/>
             </block>
         </reference>
     </adminhtml_adminhtml_customreport_viewtable>
@@ -51,7 +51,7 @@
     <adminhtml_adminhtml_customreport_viewchart>
         <update handle="adminhtml_adminhtml_customreport"/>
         <reference name="content">
-            <block type="cleansql/adminhtml_report_chart" name="report.chart"/>
+            <block type="cleansql/adminhtml_customreport_chart" name="report.chart"/>
         </reference>
     </adminhtml_adminhtml_customreport_viewchart>
 

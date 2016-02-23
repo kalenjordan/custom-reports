@@ -1,6 +1,6 @@
 <?php
 
-class Clean_SqlReports_Block_Adminhtml_Report_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Clean_SqlReports_Block_Adminhtml_Customreport_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     public function __construct()
     {

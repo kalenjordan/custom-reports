@@ -1,6 +1,6 @@
 <?php
 
-class Clean_SqlReports_Block_Adminhtml_Report_View extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Clean_SqlReports_Block_Adminhtml_Customreport_View extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Class constructor
