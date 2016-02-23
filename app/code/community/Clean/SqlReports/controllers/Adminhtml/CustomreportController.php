@@ -124,10 +124,10 @@ class Clean_SqlReports_Adminhtml_CustomreportController extends Mage_Adminhtml_C
                 $json = $report->getReportCollection()->toReportJson();
             }
             $this->getResponse()->setBody($json);
-            $this->getResponse()->setHeader('Content-type', 'application/json');
+            $this->getResponse()->setHeader('Content-type', 'application/json', true);
         } catch (Exception $e) {
             $this->getResponse()->setBody(json_encode(array('error' => $e->getMessage())));
-            $this->getResponse()->setHeader('Content-type', 'application/json');
+            $this->getResponse()->setHeader('Content-type', 'application/json', true);
         }
     }
 
