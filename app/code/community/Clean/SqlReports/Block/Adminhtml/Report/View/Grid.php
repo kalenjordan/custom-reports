@@ -68,6 +68,24 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
         return $this;
     }
 
+    public function getRowUrl($row)
+    {
+        if($row->getClickableUrl()) {
+            $url = $row->getClickableUrl();
+            $urlParts = explode('/', $url);
+            if(count($urlParts) == 5) {
+                $field = array_pop($urlParts);
+                $param = array_pop($urlParts);
+                if ($row->getData($field)) {
+                    $url = implode('/', $urlParts);
+                    return $this->getUrl($url, array($param => $row->getData($field))
+                    );
+                }
+            }
+        }
+        return null;
+    }
+
     protected function _prepareColumns()
     {
         try {
@@ -86,6 +104,9 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
         if (count($items)) {
             $item = reset($items);
             foreach ($item->getData() as $key => $val) {
+                if($key == 'clickable_url') {
+                    continue;
+                }
                 $isFilterable = false;
                 if (isset($filterable[$key])) {
                     $isFilterable = $filterable[$key];

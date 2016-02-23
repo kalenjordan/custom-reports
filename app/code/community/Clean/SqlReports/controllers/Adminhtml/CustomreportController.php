@@ -1,6 +1,6 @@
 <?php
 
-class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
+class Clean_SqlReports_Adminhtml_CustomreportController extends Mage_Adminhtml_Controller_Action
 {
     protected $_report;
 
@@ -74,7 +74,7 @@ class Clean_SqlReports_Adminhtml_ReportController extends Mage_Adminhtml_Control
         $report = $this->_getReport();
         if (!$report->getId()) {
             Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Wasn't able to find the report"));
-            $this->_redirect('adminhtml/adminhtml_report');
+            $this->_redirect('adminhtml/adminhtml_customreport');
             return $this;
         }
 
