@@ -114,7 +114,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_View_Grid extends Mage_Adminhtml_B
                     $isFilterable = 'adminhtml/widget_grid_column_filter_text';
                 }
                 $this->addColumn(
-                    $key,
+                    Mage::getModel('catalog/product')->formatUrlKey($key),
                     array(
                         'header'   => Mage::helper('core')->__($key),
                         'index'    => $key,
