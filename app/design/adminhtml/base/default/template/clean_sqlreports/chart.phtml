@@ -1,8 +1,10 @@
 <?php
-    /* @var $this Clean_SqlReports_Block_Adminhtml_Report_Chart */
-    $report = $this->_getReport(); /* @var $report Clean_SqlReports_Model_Report */
+/* @var $this Clean_SqlReports_Block_Adminhtml_Report_Chart */
+$_report = $this->_getReport(); /* @var $_report Clean_SqlReports_Model_Report */
 ?>
-
+<div class="content-header">
+    <h3 class="icon-head head-adminhtml-report-view"><?php echo $_report->getTitle() ?></h3>
+</div>
 <div id="offline-alert"></div>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
@@ -13,14 +15,14 @@ if (!navigator.onLine) {
 
 <?php if ($report->getOutputType() == Clean_SqlReports_Model_Config_OutputType::TYPE_CALENDAR_CHART): ?>
     google.load("visualization", "1.1", {packages:["calendar"]});
-<?php elseif ($report->getOutputType() == Clean_SqlReports_Model_Config_OutputType::TYPE_GEO_CHART): ?>
+<?php elseif ($_report->getOutputType() == Clean_SqlReports_Model_Config_OutputType::TYPE_GEO_CHART): ?>
     google.load('visualization', '1.0', {'packages': ['geochart']});
 <?php else: ?>
     google.load('visualization', '1.0', {'packages': ['corechart']});
 <?php endif; ?>
 
 google.setOnLoadCallback(function() {
-    new Ajax.Request('<?php echo Mage::helper("adminhtml")->getUrl('adminhtml/adminhtml_report/getJson',array('report_id' => $report->getId())) ?>', {
+    new Ajax.Request('<?php echo Mage::helper("adminhtml")->getUrl('adminhtml/adminhtml_report/getJson',array('report_id' => $_report->getId())) ?>', {
         method:'get',
         onSuccess: function(transport) {
             var jsonData = transport.responseText.evalJSON();
@@ -28,7 +30,7 @@ google.setOnLoadCallback(function() {
                 alert(jsonData.error)
             } else {
 
-                <?php if ($report->getOutputType() == Clean_SqlReports_Model_Config_OutputType::TYPE_CALENDAR_CHART): ?>
+                <?php if ($_report->getOutputType() == Clean_SqlReports_Model_Config_OutputType::TYPE_CALENDAR_CHART): ?>
                 var data = new google.visualization.DataTable();
                 data.addColumn({ type: 'date', id: 'Date' });
                 data.addColumn({ type: 'number', id: 'Test' });
@@ -42,14 +44,14 @@ google.setOnLoadCallback(function() {
                     var data = google.visualization.arrayToDataTable(jsonData);
                 <?php endif; ?>
 
-                var chart = new google.visualization.<?php echo $report->getOutputType(); ?>(document.getElementById('<?php echo $report->getChartDiv(); ?>'));
-                chart.draw(data, <?php echo $report->getChartConfig() ? $report->getChartConfig() : '{}'; ?>);
+                var chart = new google.visualization.<?php echo $_report->getOutputType(); ?>(document.getElementById('<?php echo $_report->getChartDiv(); ?>'));
+                chart.draw(data, <?php echo $_report->getChartConfig() ? $_report->getChartConfig() : '{}'; ?>);
             }
         }
     });
 });
 </script>
 
-<div id="<?php echo $report->getChartDiv(); ?>"></div>
+<div id="<?php echo $_report->getChartDiv(); ?>"></div>
 
 
