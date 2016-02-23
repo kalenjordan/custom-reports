@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Clean_SqlReports>
-            <version>0.1.3</version>
+            <version>0.1.4</version>
         </Clean_SqlReports>
     </modules>
 
