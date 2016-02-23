@@ -36,7 +36,7 @@ class Clean_SqlReports_Block_Adminhtml_Page_Menu extends Mage_Adminhtml_Block_Pa
             $menuArray['children'][$titleNodeName] = array(
                 'label'      => $report->getTitle(),
                 'sort_order' => 0,
-                'url'        => $this->getUrl('adminhtml/adminhtml_report/' . $route, array('report_id' => $report->getId())),
+                'url'        => $this->getUrl('adminhtml/adminhtml_customreport/' . $route, array('report_id' => $report->getId())),
                 'active'     => true,
                 'level'      => 2,
                 'last'       => $reportCount === $i || $i === $maxReports,
