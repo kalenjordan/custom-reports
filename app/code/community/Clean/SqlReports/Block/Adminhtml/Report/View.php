@@ -7,7 +7,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_View extends Mage_Adminhtml_Block_
      */
     public function __construct()
     {
-        $this->_controller = 'adminhtml_report_view';
+        $this->_controller = 'adminhtml_customreport_view';
         $this->_blockGroup = 'cleansql';
         $this->_headerText = Mage::helper('core')->__($this->_getReport()->getTitle());
 
