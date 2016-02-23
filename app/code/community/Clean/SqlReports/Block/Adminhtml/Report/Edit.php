@@ -5,7 +5,7 @@ class Clean_SqlReports_Block_Adminhtml_Report_Edit extends Mage_Adminhtml_Block_
     public function __construct()
     {
         $this->_objectId = 'report_id';
-        $this->_controller = 'adminhtml_customreport';
+        $this->_controller = 'adminhtml_report';
         $this->_blockGroup = 'cleansql';
 
         $this->_headerText = Mage::helper('core')->__('Edit Report');
