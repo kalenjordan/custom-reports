@@ -57,6 +57,10 @@ class Clean_SqlReports_Adminhtml_CustomreportController extends Mage_Adminhtml_C
         $report->addData($postData['report']);
         $report->save();
 
+        if (!$postData['report_id']) {
+            Mage::app()->cleanCache(array('BACKEND_MAINMENU'));
+        }
+
         if ($this->getRequest()->getParam('back')) {
             $this->_redirect('*/*/edit', array('report_id' => $report->getId()));
             return $this;
@@ -78,6 +82,7 @@ class Clean_SqlReports_Adminhtml_CustomreportController extends Mage_Adminhtml_C
 
         $report->delete();
 
+        Mage::app()->cleanCache(array('BACKEND_MAINMENU'));
         Mage::getSingleton('adminhtml/session')->addSuccess($this->__("Deleted report: %s", $report->getTitle()));
 
         $this->_redirect('*/*');
