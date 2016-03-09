@@ -70,19 +70,6 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
 
     public function getRowUrl($row)
     {
-        if($row->getClickableUrl()) {
-            $url = $row->getClickableUrl();
-            $urlParts = explode('/', $url);
-            if(count($urlParts) == 5) {
-                $field = array_pop($urlParts);
-                $param = array_pop($urlParts);
-                if ($row->getData($field)) {
-                    $url = implode('/', $urlParts);
-                    return $this->getUrl($url, array($param => $row->getData($field))
-                    );
-                }
-            }
-        }
         return null;
     }
 
@@ -100,6 +87,7 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
 
         $config     = $this->_getReport()->getGridConfig();
         $filterable = $config->getFilterable();
+        $clickable  = $config->getClickable();
         $items      = $collection->getItems();
         if (count($items)) {
             $item = reset($items);
@@ -113,6 +101,10 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
                 } elseif (in_array($key, $filterable)) {
                     $isFilterable = 'adminhtml/widget_grid_column_filter_text';
                 }
+                $isClickable = false;
+                if (isset($clickable[$key])) {
+                    $isClickable = 'cleansql/adminhtml_widget_grid_column_renderer_clickable';
+                }
                 $this->addColumn(
                     Mage::getModel('catalog/product')->formatUrlKey($key),
                     array(
@@ -120,6 +112,7 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
                         'index'    => $key,
                         'filter'   => $isFilterable,
                         'sortable' => true,
+                        'renderer' => $isClickable
                     )
                 );
             }
