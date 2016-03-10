@@ -98,9 +98,13 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
             $collection = new Varien_Data_Collection();
         }
 
+        /** @var Clean_SqlReports_Model_Report_GridConfig $config */
         $config     = $this->_getReport()->getGridConfig();
+
+        $labels     = $config->getLabels();
         $filterable = $config->getFilterable();
         $items      = $collection->getItems();
+
         if (count($items)) {
             $item = reset($items);
             foreach ($item->getData() as $key => $val) {
@@ -113,10 +117,17 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
                 } elseif (in_array($key, $filterable)) {
                     $isFilterable = 'adminhtml/widget_grid_column_filter_text';
                 }
+
+                $label = $key;
+
+                if (isset($labels[$key])) {
+                    $label = $labels[$key];
+                }
+
                 $this->addColumn(
                     Mage::getModel('catalog/product')->formatUrlKey($key),
                     array(
-                        'header'   => Mage::helper('core')->__($key),
+                        'header'   => Mage::helper('core')->__($label),
                         'index'    => $key,
                         'filter'   => $isFilterable,
                         'sortable' => true,
