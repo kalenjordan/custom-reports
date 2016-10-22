@@ -26,4 +26,18 @@ class Clean_SqlReports_Model_Report_GridConfig extends Varien_Object
         }
         return array();
     }
+
+    /**
+     * get list of clickable columns
+     * @return array
+     */
+    public function getClickable()
+    {
+        $clickable = $this->getData('clickable');
+        if (is_array($clickable)) {
+            return $clickable;
+        }
+        return array();
+    }
+
 }
