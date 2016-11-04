@@ -15,6 +15,8 @@ Easily create reports with custom SQL queries and display them using the magento
 - Control access to viewing, editing, and creation of reports in Magento ACL list.
 - Cache results in dynamically created tables for performance and historical reasons.
 - Select separate database connection to run queries against
+- Ability to add links to column values (clickable)
+- Ability to hide columns when data is used for other columns (such as clickable)
 
 #### **TO DO**
 - Fix the calendar chart to support more than 1 year.
@@ -46,13 +48,15 @@ See [the contributor list](https://github.com/kalenjordan/custom-reports/graphs/
 It's possible to make columns filterable by using the "Grid Configuration" option. This field expects a JSON object with key/value pairs.
 There are two options to make a set of columns configurable, an array containing the names of the columns to be filtered:
 
-```
+```json
 {
 "filterable": ["customer_group", "region"]
 }
 ```
+
 Or an object with key/value pairs of the column name and Magento admin block type. It is important that this be a valid block type otherwise the grid will fail to render.
-```
+
+```json
 {
 "filterable": {"created_at_date": "adminhtml/widget_grid_column_filter_date"}
 }
@@ -64,6 +68,24 @@ Here is a list of common filter block types:
 * `adminhtml/widget_grid_column_filter_country`
 
 More can be found in `app/code/core/Mage/Adminhtml/Block/Widget/Grid/Column.php` within the `_getFilterByType` method.
+
+You can also create clickable row values, and hide columns. Example;
+
+```json
+{  
+   "clickable":{  
+      "order_id":{  
+         "*/sales_order/view/order_id":"order_id"
+      },
+      "sku":{  
+         "*/catalog_product/edit/id":"product_id"
+      }
+   },
+   "hidden":{  
+      "product_id":true
+   }
+}
+```
 
 ### License
 The license is currently <a href="https://tldrlegal.com/license/creative-commons-attribution-noncommercial-(cc-nc)#summary">Creative Commons Attribution NonCommercial</a>.  TL;DR is that you can modify and distribute but not for commercial use.
