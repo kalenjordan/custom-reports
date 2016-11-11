@@ -49,9 +49,9 @@ class Clean_SqlReports_Helper_Data extends Mage_Core_Helper_Abstract
     public function getPrimaryReportRoute($report)
     {
         if ($report->hasChart()) {
-            return 'viewChart';
+            return 'viewchart';
         } else {
-            return 'viewTable';
+            return 'viewtable';
         }
     }
     /**
