@@ -17,8 +17,6 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $this->unsetChild('search_button');
-        $this->unsetChild('reset_filter_button');
 
         return $this;
     }
@@ -70,19 +68,6 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
 
     public function getRowUrl($row)
     {
-        if($row->getClickableUrl()) {
-            $url = $row->getClickableUrl();
-            $urlParts = explode('/', $url);
-            if(count($urlParts) == 5) {
-                $field = array_pop($urlParts);
-                $param = array_pop($urlParts);
-                if ($row->getData($field)) {
-                    $url = implode('/', $urlParts);
-                    return $this->getUrl($url, array($param => $row->getData($field))
-                    );
-                }
-            }
-        }
         return null;
     }
 
@@ -98,28 +83,45 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
             $collection = new Varien_Data_Collection();
         }
 
+        /** @var Clean_SqlReports_Model_Report_GridConfig $config */
         $config     = $this->_getReport()->getGridConfig();
+
+        $labels     = $config->getLabels();
         $filterable = $config->getFilterable();
+        $clickable  = $config->getClickable();
+        $hidden     = $config->getHidden();
         $items      = $collection->getItems();
         if (count($items)) {
             $item = reset($items);
             foreach ($item->getData() as $key => $val) {
-                if($key == 'clickable_url') {
-                    continue;
-                }
                 $isFilterable = false;
                 if (isset($filterable[$key])) {
                     $isFilterable = $filterable[$key];
                 } elseif (in_array($key, $filterable)) {
                     $isFilterable = 'adminhtml/widget_grid_column_filter_text';
                 }
+                $label = $key;
+                if (isset($labels[$key])) {
+                    $label = $labels[$key];
+                }
+                $isClickable = false;
+                if (isset($clickable[$key])) {
+                    $isClickable = 'cleansql/adminhtml_widget_grid_column_renderer_clickable';
+                }
+                $isHidden = false;
+                if (isset($hidden[$key])) {
+                    $isHidden = true;
+                }
                 $this->addColumn(
                     Mage::getModel('catalog/product')->formatUrlKey($key),
                     array(
-                        'header'   => Mage::helper('core')->__($key),
+                        'header'   => Mage::helper('core')->__($label),
                         'index'    => $key,
                         'filter'   => $isFilterable,
                         'sortable' => true,
+                        'renderer' => $isClickable,
+                        'column_css_class' => ($isHidden ? 'no-display' : ''),
+                        'header_css_class' => ($isHidden ? 'no-display' : ''),
                     )
                 );
             }
