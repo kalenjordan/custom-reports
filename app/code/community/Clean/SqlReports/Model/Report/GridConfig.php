@@ -18,6 +18,15 @@ class Clean_SqlReports_Model_Report_GridConfig extends Varien_Object
         return array();
     }
 
+    public function getLabels()
+    {
+        $labels = $this->getData('labels');
+        if (is_array($labels)) {
+            return $labels;
+        }
+        return array();
+    }
+
     /**
      * get list of clickable columns
      * @return array

@@ -9,11 +9,11 @@ class Clean_SqlReports_Block_Adminhtml_Widget_Grid_Column_Renderer_Clickable ext
         $index = $this->getColumn()->getIndex();
         $config = $this->_getClickableConfig();
 
-        $url = current($config[$index]);
+        $url = key($config[$index]);
         $urlParts = explode('/', $url);
         if(sizeof($urlParts) == 4) {
-            $field = key($config[$index]);
             $param = array_pop($urlParts);
+            $field = current($config[$index]);
             if ($row->getData($field)) {
                 $url = implode('/', $urlParts);
                 return '<a href="' . $this->getUrl($url, array($param => $row->getData($field))) . '">' . $row->getData($index) . '</a>';
