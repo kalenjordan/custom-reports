@@ -99,11 +99,11 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
                 $isFilterable = false;
                 if (isset($filterable[$key])) {
                     $isFilterable = $filterable[$key];
-                    if (is_array($isFilterable)) {
-                        if (isset($isFilterable['type']) && $isFilterable['type'] === 'adminhtml/widget_grid_column_filter_select') {
-                            $options = $this->_getFilterableOptions($isFilterable);
-                            $isFilterable = $options ? $isFilterable['type'] : 'adminhtml/widget_grid_column_filter_text';
-                        }
+                    if (is_array($isFilterable) && isset($isFilterable['type']) && $isFilterable['type'] === 'adminhtml/widget_grid_column_filter_select') {
+                        $options = $this->_getFilterableOptions($isFilterable);
+                        $isFilterable = $options ? $isFilterable['type'] : 'adminhtml/widget_grid_column_filter_text';
+                    } else {
+                        $isFilterable = 'adminhtml/widget_grid_column_filter_text';
                     }
                 } elseif (in_array($key, $filterable)) {
                     $isFilterable = 'adminhtml/widget_grid_column_filter_text';
