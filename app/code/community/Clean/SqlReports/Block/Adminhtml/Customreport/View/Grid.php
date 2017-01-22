@@ -17,6 +17,11 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
+        
+        if (!$this->_getReport()->getGridConfig()->getFilterable()) {
+            $this->unsetChild('search_button');
+            $this->unsetChild('reset_filter_button');
+        }
 
         return $this;
     }
