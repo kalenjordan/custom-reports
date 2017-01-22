@@ -162,11 +162,11 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
 
                 $options = $model->{$isFilterable['method']}();
                 if (is_array($options)) {
-                    if (isset($isFilterable['option_data'])) {
-                        $value = isset($isFilterable['option_data']['value']) ? $isFilterable['option_data']['value'] : 'value';
-                        $label = isset($isFilterable['option_data']['label']) ? $isFilterable['option_data']['label'] : 'label';
+                    $fields = isset($isFilterable['option_data']) ? $isFilterable['option_data'] : false;
+                    if (is_array($fields) && isset($fields['value']) && isset($fields['label'])) {
+                        return $this->_toFlatArray($options, $fields['value'], $fields['label']);
                     }
-                    return $this->_toFlatArray($options, $value, $label);
+                    return $this->_toFlatArray($options);
                 }
                 return false;
             }
