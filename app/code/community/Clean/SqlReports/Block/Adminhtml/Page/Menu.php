@@ -55,6 +55,11 @@ class Clean_SqlReports_Block_Adminhtml_Page_Menu extends Mage_Adminhtml_Block_Pa
      */
     protected function _getXmlTitle(Clean_SqlReports_Model_Report $report)
     {
-        return strtolower(preg_replace('~[^a-z0-9]+~i', '', $report->getTitle()));
+        $xmlTitle = strtolower(preg_replace('~[^a-z0-9]+~i', '', $report->getTitle()));
+        if($xmlTitle == "")
+        {
+            return $report->getId();
+        }
+        return $xmlTitle;
     }
 }
