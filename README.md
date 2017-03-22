@@ -69,6 +69,17 @@ Here is a list of common filter block types:
 
 More can be found in `app/code/core/Mage/Adminhtml/Block/Widget/Grid/Column.php` within the `_getFilterByType` method.
 
+The column data can be rendered using the Magento types:
+
+```json
+{  
+   "type":{  
+      "order date":"date",
+      "total_price": "currency",
+   }
+}
+```
+
 You can also create clickable row values, and hide columns. Example;
 
 ```json
@@ -83,6 +94,10 @@ You can also create clickable row values, and hide columns. Example;
    },
    "hidden":{  
       "product_id":true
+   }
+   "alignment":{  
+      "sku":"center",
+      "total_price":"right"
    }
 }
 ```
