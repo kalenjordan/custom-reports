@@ -102,6 +102,16 @@ You can also create clickable row values, hide columns and define alignment. Exa
 }
 ```
 
+### Export
+You can export the plain tables to CSV or Excel. By default, is used the standard Magento export mechanism.
+
+If you want to export to Excel 2007 format, follow next steps:
+ - Download PHPExcel library from: https://github.com/PHPOffice/PHPExcel
+ - Create the folder lib/PHPExcel
+ - Copy the downloaded Classes folder to lib/PHPExcel
+
+If the library is found, then it will be used instead the default Magento export. In that case, cells will adjust automatically to content and the alignment definition allows to align columns in the Excel.
+
 ### License
 The license is currently <a href="https://tldrlegal.com/license/creative-commons-attribution-noncommercial-(cc-nc)#summary">Creative Commons Attribution NonCommercial</a>.  TL;DR is that you can modify and distribute but not for commercial use.
 
