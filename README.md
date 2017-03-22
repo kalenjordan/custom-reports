@@ -37,6 +37,7 @@ See [the contributor list](https://github.com/kalenjordan/custom-reports/graphs/
 
 #### **Known Issues**
 - Calendar Chart only supports one year.
+- "currency" column type uses the default store currency, so currency symbol can be wrong on a multiple currency store.
 
 #### **Disclaimer**
  - **Use at your own risk.**
