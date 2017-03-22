@@ -74,7 +74,7 @@ The column data can be rendered using the Magento types:
 ```json
 {  
    "type":{  
-      "order date":"date",
+      "order_date":"date",
       "total_price": "currency",
    }
 }
