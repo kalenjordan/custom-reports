@@ -80,7 +80,7 @@ The column data can be rendered using the Magento types:
 }
 ```
 
-You can also create clickable row values, and hide columns. Example;
+You can also create clickable row values, hide columns and define alignment. Example;
 
 ```json
 {  
