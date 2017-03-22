@@ -156,9 +156,9 @@ class Clean_SqlReports_Adminhtml_CustomreportController extends Mage_Adminhtml_C
      * Export grid to Excel XLSX format
      *
      * Requires an external library:
-     *      - Download library from: https://github.com/PHPOffice/PHPExcel
-     *      - Create the folder lib/PHPExcel
-     *      - Copy the downloaded Classes folder to lib/PHPExcel
+     *      - Download library from https://github.com/PHPOffice/PHPExcel
+     *      - Create the folder 'lib/PHPExcel'
+     *      - Copy the downloaded 'Classes' folder to 'lib/PHPExcel'
      */
     protected function _exportToXlsx()
     {
