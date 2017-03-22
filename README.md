@@ -95,7 +95,7 @@ You can also create clickable row values, hide columns and define alignment. Exa
    "hidden":{  
       "product_id":true
    }
-   "alignment":{  
+   "alignment":{
       "sku":"center",
       "total_price":"right"
    }
