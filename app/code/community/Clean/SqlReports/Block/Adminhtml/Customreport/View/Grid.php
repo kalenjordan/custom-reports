@@ -12,6 +12,7 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
         $this->setDefaultDir('ASC');
         $this->setSaveParametersInSession(true);
         $this->addExportType('*/*/exportCsv', $this->__('CSV'));
+        $this->addExportType('*/*/exportExcel', $this->__('Excel'));
     }
 
     protected function _prepareLayout()
