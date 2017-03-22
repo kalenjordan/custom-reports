@@ -12,6 +12,7 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
         $this->setDefaultDir('ASC');
         $this->setSaveParametersInSession(true);
         $this->addExportType('*/*/exportCsv', $this->__('CSV'));
+        $this->addExportType('*/*/exportExcel', $this->__('Excel'));
     }
 
     protected function _prepareLayout()
@@ -99,12 +100,19 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
         if (count($items)) {
             $item = reset($items);
             foreach ($item->getData() as $key => $val) {
+                $options = FALSE;
                 $column_css_class = array();
                 $header_css_class = array();
 
                 $isFilterable = false;
                 if (isset($filterable[$key])) {
                     $isFilterable = $filterable[$key];
+                    if (is_array($isFilterable) && isset($isFilterable['type']) && $isFilterable['type'] === 'adminhtml/widget_grid_column_filter_select') {
+                        $options = $this->_getFilterableOptions($isFilterable);
+                        $isFilterable = $options ? $isFilterable['type'] : 'adminhtml/widget_grid_column_filter_text';
+                    } else {
+                        $isFilterable = $filterable[$key];
+                    }
                 } elseif (in_array($key, $filterable)) {
                     $isFilterable = 'adminhtml/widget_grid_column_filter_text';
                 }
@@ -138,12 +146,13 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
                         'header'   => Mage::helper('core')->__($label),
                         'index'    => $key,
                         'filter'   => $isFilterable,
+                        'options'  => $options,
                         'sortable' => true,
                         'type'     => (isset($type[$key]) ? $type[$key] : 'text'),
                         'renderer' => $isClickable,
                         'column_css_class' => implode(' ', $column_css_class),
                         'header_css_class' => implode(' ', $header_css_class),
-                        'currency_code'    => $currency_code,
+                        'currency_code'    => $currency_code
                     )
                 );
             }
@@ -151,4 +160,133 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
 
         return parent::_prepareColumns();
     }
+
+    protected function _getFilterableOptions($isFilterable)
+    {
+        if (isset($isFilterable['options'])) {
+            if (is_array($isFilterable['options'])) {
+                return $isFilterable['options'];
+            }
+            return false;
+        }
+
+        if (isset($isFilterable['source_model'])) {
+            $model = Mage::getModel($isFilterable['source_model']);
+        } elseif (isset($isFilterable['resource_model'])) {
+            $model = Mage::getResourceModel($isFilterable['resource_model']);
+        }
+
+        if ($model) {
+            if (isset($isFilterable['method'])) {
+                if (!method_exists($model, $isFilterable['method'])) {
+                    return false;
+                }
+
+                $options = $model->{$isFilterable['method']}();
+                if (is_array($options)) {
+                    $fields = isset($isFilterable['option_data']) ? $isFilterable['option_data'] : false;
+                    if (is_array($fields) && isset($fields['value']) && isset($fields['label'])) {
+                        return $this->_toFlatArray($options, $fields['value'], $fields['label']);
+                    }
+                    return $this->_toFlatArray($options);
+                }
+                return false;
+            }
+
+            // Magento fallback
+            if (method_exists($model, 'toOptionArray')) {
+                return $this->_toFlatArray($model->toOptionArray());
+            } elseif (method_exists($model, 'getOptionArray')) {
+                return $this->_toFlatArray($model->getOptionArray());
+            }
+        }
+        return false;
+    }
+
+    protected function _toFlatArray($options, $value = 'value', $label = 'label')
+    {
+        if (!is_array($options)) {
+            return false;
+        }
+
+        if (!is_array(reset($options))) {
+            return $options;
+        }
+
+        if (isset($options[key($options)][$value]) && isset($options[key($options)][$label])) {
+            foreach ($options as $key => $option) {
+                $options[$option[$value]] = $option[$label];
+                unset($options[$key]);
+            }
+            return $options;
+        }
+        return false;
+    }
+
+    public function getExcel2007Data()
+    {
+        $this->_isExport = true;
+        $this->_prepareGrid();
+        $this->getCollection()->getSelect()->limit();
+        $this->getCollection()->setPageSize(0);
+        $this->getCollection()->load();
+        $this->_afterLoadCollection();
+
+        $data = array();
+        $xl_data = array();
+
+
+        /** @var Clean_SqlReports_Model_Report_GridConfig $config */
+        $config = $this->_getReport()->getGridConfig();
+
+        // Retrieve headers
+        // We will need original key and the translated one (as a label).
+        // 'key' will be used to access configuration options while 'label' is
+        // the text that will be shown at the header
+        $labels = $config->getLabels();
+        $hidden = $config->getHidden();
+        $items  = $this->getCollection()->getItems();
+        if (count($items)) {
+            $item = reset($items);
+            foreach ($item->getData() as $key => $val) {
+                if (!isset($hidden[$key])) {
+                    $label = $key;
+                    if (isset($labels[$key])) {
+                        $label = $labels[$key];
+                    }
+                    $data[] = array('key'   => $key,
+                                    'label' => Mage::helper('core')->__($label));
+                }
+            }
+        }
+
+        /*foreach ($this->_columns as $column) {
+            if (!$column->getIsSystem()) {
+                $data[] = ''.$column->getExportHeader().'';
+            }
+        }*/
+        $xl_data[] = $data;
+
+        foreach ($this->getCollection() as $item) {
+            $data = array();
+            foreach ($this->_columns as $column) {
+                if (!$column->getIsSystem()) {
+                    $data[] = $column->getRowFieldExport($item);
+                }
+            }
+            $xl_data[] = $data;
+        }
+
+        if ($this->getCountTotals())
+        {
+            $data = array();
+            foreach ($this->_columns as $column) {
+                if (!$column->getIsSystem()) {
+                    $data[] = $column->getRowFieldExport($this->getTotals());
+                }
+            }
+        }
+        return $xl_data;
+    }
+
 }
