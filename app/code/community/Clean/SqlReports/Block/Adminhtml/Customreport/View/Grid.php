@@ -90,10 +90,18 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
         $filterable = $config->getFilterable();
         $clickable  = $config->getClickable();
         $hidden     = $config->getHidden();
+        $type       = $config->getType();
+        $alignment  = $config->getAlignment();
         $items      = $collection->getItems();
+
+        $store = Mage::app()->getStore();
+        $currency_code = $store->getBaseCurrency()->getCode();
         if (count($items)) {
             $item = reset($items);
             foreach ($item->getData() as $key => $val) {
+                $column_css_class = array();
+                $header_css_class = array();
+
                 $isFilterable = false;
                 if (isset($filterable[$key])) {
                     $isFilterable = $filterable[$key];
@@ -111,7 +119,19 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
                 $isHidden = false;
                 if (isset($hidden[$key])) {
                     $isHidden = true;
+                    $column_css_class[] = 'no-display';
+                    $header_css_class[] = 'no-display';
                 }
+
+                if(isset($alignment[$key])) {
+                    if($alignment[$key] == 'right') {
+                        $column_css_class[] = 'a-right';
+                    }
+                    elseif($alignment[$key] == 'center') {
+                        $column_css_class[] = 'a-center';
+                    }
+                }
+
                 $this->addColumn(
                     Mage::getModel('catalog/product')->formatUrlKey($key),
                     array(
@@ -119,9 +139,11 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
                         'index'    => $key,
                         'filter'   => $isFilterable,
                         'sortable' => true,
+                        'type'     => (isset($type[$key]) ? $type[$key] : 'text'),
                         'renderer' => $isClickable,
-                        'column_css_class' => ($isHidden ? 'no-display' : ''),
-                        'header_css_class' => ($isHidden ? 'no-display' : ''),
+                        'column_css_class' => implode(' ', $column_css_class),
+                        'header_css_class' => implode(' ', $header_css_class),
+                        'currency_code'    => $currency_code,
                     )
                 );
             }
