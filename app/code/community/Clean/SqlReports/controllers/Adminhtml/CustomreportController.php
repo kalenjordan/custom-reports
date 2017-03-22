@@ -115,6 +115,31 @@ class Clean_SqlReports_Adminhtml_CustomreportController extends Mage_Adminhtml_C
     }
 
     /**
+     * Export grid to Excel format
+     */
+    public function exportExcelAction()
+    {
+        Mage::register('current_report', $this->_getReport());
+        $this->loadLayout();
+
+        /** @var $grid Mage_Adminhtml_Block_Widget_Grid */
+        $grid = $this->getLayout()->getBlock('report.view.grid');
+
+        if(!$grid instanceof Mage_Adminhtml_Block_Widget_Grid) {
+            $this->_forward('noroute');
+            return;
+        }
+
+        $fileName = strtolower(str_replace(' ', '_', $this->_getReport()->getTitle())) . '_' . time() . '.xls';
+        $content  = $grid->getExcel($fileName);
+
+        $this->_prepareDownloadResponse(
+            $fileName,
+            $content
+        );
+    }
+
+    /**
      * Get JSON action
      *
      * @return void
@@ -156,7 +181,7 @@ class Clean_SqlReports_Adminhtml_CustomreportController extends Mage_Adminhtml_C
 
     protected function _isAllowed()
     {
-        $isView = in_array($this->getRequest()->getActionName(), array('index', 'view', 'viewtable', 'viewchart', 'getJson', 'exportCsv'));
+        $isView = in_array($this->getRequest()->getActionName(), array('index', 'view', 'viewtable', 'viewchart', 'getJson', 'exportCsv', 'exportExcel'));
 
         /** @var $helper Clean_SqlReport_Helper_Data */
         $helper = Mage::helper('cleansql');
