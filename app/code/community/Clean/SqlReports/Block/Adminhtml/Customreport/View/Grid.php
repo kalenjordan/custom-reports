@@ -194,14 +194,8 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
                 }
             }
         }
-
-        /*foreach ($this->_columns as $column) {
-            if (!$column->getIsSystem()) {
-                $data[] = ''.$column->getExportHeader().'';
-            }
-        }*/
+        
         $xl_data[] = $data;
-
         foreach ($this->getCollection() as $item) {
             $data = array();
             foreach ($this->_columns as $column) {
