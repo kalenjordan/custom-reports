@@ -37,6 +37,7 @@ See [the contributor list](https://github.com/kalenjordan/custom-reports/graphs/
 
 #### **Known Issues**
 - Calendar Chart only supports one year.
+- "currency" column type uses the default store currency, so currency symbol can be wrong on a multiple currency store.
 
 #### **Disclaimer**
  - **Use at your own risk.**
@@ -69,7 +70,18 @@ Here is a list of common filter block types:
 
 More can be found in `app/code/core/Mage/Adminhtml/Block/Widget/Grid/Column.php` within the `_getFilterByType` method.
 
-You can also create clickable row values, and hide columns. Example;
+The column data can be rendered using the Magento types:
+
+```json
+{  
+   "type":{  
+      "order_date":"date",
+      "total_price":"currency",
+   }
+}
+```
+
+You can also create clickable row values, hide columns and define alignment. Example;
 
 ```json
 {  
@@ -83,9 +95,23 @@ You can also create clickable row values, and hide columns. Example;
    },
    "hidden":{  
       "product_id":true
+   },
+   "alignment":{
+      "sku":"center",
+      "total_price":"right"
    }
 }
 ```
+
+### Export
+You can export the plain tables to CSV or Excel. By default, is used the standard Magento export mechanism.
+
+If you want to export to Excel 2007 format, follow next steps:
+ - Download PHPExcel library from https://github.com/PHPOffice/PHPExcel
+ - Create the folder lib/PHPExcel
+ - Copy the downloaded Classes folder to lib/PHPExcel
+
+If the library is found, then it will be used instead the default Magento export. In that case, cells will adjust automatically to content and the alignment definition allows to align columns in the Excel.
 
 ### License
 The license is currently <a href="https://tldrlegal.com/license/creative-commons-attribution-noncommercial-(cc-nc)#summary">Creative Commons Attribution NonCommercial</a>.  TL;DR is that you can modify and distribute but not for commercial use.
