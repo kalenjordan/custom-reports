@@ -75,7 +75,7 @@ The column data can be rendered using the Magento types:
 {  
    "type":{  
       "order_date":"date",
-      "total_price": "currency",
+      "total_price":"currency",
    }
 }
 ```
@@ -94,7 +94,7 @@ You can also create clickable row values, hide columns and define alignment. Exa
    },
    "hidden":{  
       "product_id":true
-   }
+   },
    "alignment":{
       "sku":"center",
       "total_price":"right"
