@@ -153,6 +153,11 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
         return parent::_prepareColumns();
     }
 
+    /**
+     * Get the array with all data to export, including header.
+     * 
+     * @return array
+     */
     public function getExcel2007Data()
     {
         $this->_isExport = true;
