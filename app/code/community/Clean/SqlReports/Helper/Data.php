@@ -6,6 +6,8 @@
  */
 class Clean_SqlReports_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    const RESOURCE_VIEW_REPORT_PREFIX = 'admin/report/cleansql/report_';
+
     /**
      * Return a flag indicating if the currently logged in admin user can view reports
      *
@@ -16,6 +18,16 @@ class Clean_SqlReports_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAllowView()
     {
         return $this->getAdminSession()->isAllowed('report/cleansql');
+    }
+
+    /**
+     * Return a flag indicating if the currently logged in admin user can view report with id $id
+     *
+     * @return bool
+     */
+    public function getAllowViewReport($id)
+    {
+        return $this->getAdminSession()->isAllowed(self::RESOURCE_VIEW_REPORT_PREFIX . $id);
     }
 
     /**

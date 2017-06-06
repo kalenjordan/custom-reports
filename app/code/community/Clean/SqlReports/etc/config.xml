@@ -30,6 +30,16 @@
                     </report>
                 </entities>
             </cleansql_mysql4>
+            <admin>
+                <rewrite>
+                    <roles>Clean_SqlReports_Model_Admin_Roles</roles>
+                </rewrite>
+            </admin>
+            <admin_resource>
+                <rewrite>
+                    <acl>Clean_SqlReports_Model_Resource_Admin_Acl</acl>
+                </rewrite>
+            </admin_resource>
         </models>
 
         <resources>
