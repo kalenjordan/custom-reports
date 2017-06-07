@@ -26,6 +26,19 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_Grid extends Mage_Adminhtml_
         return parent::_prepareCollection();
     }
 
+    protected function _afterLoadCollection()
+    {
+        parent::_afterLoadCollection();
+
+        foreach ($this->_collection as $index => $item) {
+            if (! Mage::helper('cleansql')->getAllowViewReport($item->getId())) {
+                $this->_collection->removeItemByKey($index);
+            }
+        }
+
+        return $this;
+    }
+
     protected function _prepareColumns()
     {
         $this->addColumn(
