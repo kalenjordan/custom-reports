@@ -40,4 +40,30 @@ class Clean_SqlReports_Model_Report_GridConfig extends Varien_Object
         return array();
     }
 
+    /**
+     * get list of columns types
+     * @return array
+     */
+    public function getType()
+    {
+        $type = $this->getData('type');
+        if (is_array($type)) {
+            return $type;
+        }
+        return array();
+    }
+
+    /**
+     * get list of columns alignment options
+     * @return array
+     */
+    public function getAlignment()
+    {
+        $alignment = $this->getData('alignment');
+        if (is_array($alignment)) {
+            return $alignment;
+        }
+        return array();
+    }
+
 }
