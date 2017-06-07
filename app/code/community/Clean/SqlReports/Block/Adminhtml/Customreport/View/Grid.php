@@ -17,6 +17,11 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
+        
+        if (!$this->_getReport()->getGridConfig()->getFilterable()) {
+            $this->unsetChild('search_button');
+            $this->unsetChild('reset_filter_button');
+        }
 
         return $this;
     }
@@ -88,15 +93,23 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
 
         $labels     = $config->getLabels();
         $filterable = $config->getFilterable();
+        $options    = false;
         $clickable  = $config->getClickable();
         $hidden     = $config->getHidden();
         $items      = $collection->getItems();
+
         if (count($items)) {
             $item = reset($items);
             foreach ($item->getData() as $key => $val) {
                 $isFilterable = false;
                 if (isset($filterable[$key])) {
                     $isFilterable = $filterable[$key];
+                    if (is_array($isFilterable) && isset($isFilterable['type']) && $isFilterable['type'] === 'adminhtml/widget_grid_column_filter_select') {
+                        $options = $this->_getFilterableOptions($isFilterable);
+                        $isFilterable = $options ? $isFilterable['type'] : 'adminhtml/widget_grid_column_filter_text';
+                    } else {
+                        $isFilterable = 'adminhtml/widget_grid_column_filter_text';
+                    }
                 } elseif (in_array($key, $filterable)) {
                     $isFilterable = 'adminhtml/widget_grid_column_filter_text';
                 }
@@ -118,6 +131,7 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
                         'header'   => Mage::helper('core')->__($label),
                         'index'    => $key,
                         'filter'   => $isFilterable,
+                        'options'  => $options,
                         'sortable' => true,
                         'renderer' => $isClickable,
                         'column_css_class' => ($isHidden ? 'no-display' : ''),
@@ -128,5 +142,67 @@ class Clean_SqlReports_Block_Adminhtml_Customreport_View_Grid extends Mage_Admin
         }
 
         return parent::_prepareColumns();
+    }
+
+    protected function _getFilterableOptions($isFilterable)
+    {
+        if (isset($isFilterable['options'])) {
+            if (is_array($isFilterable['options'])) {
+                return $isFilterable['options'];
+            }
+            return false;
+        }
+
+        if (isset($isFilterable['source_model'])) {
+            $model = Mage::getModel($isFilterable['source_model']);
+        } elseif (isset($isFilterable['resource_model'])) {
+            $model = Mage::getResourceModel($isFilterable['resource_model']);
+        }
+        
+        if ($model) {
+            if (isset($isFilterable['method'])) {
+                if (!method_exists($model, $isFilterable['method'])) {
+                    return false;
+                }
+
+                $options = $model->{$isFilterable['method']}();
+                if (is_array($options)) {
+                    $fields = isset($isFilterable['option_data']) ? $isFilterable['option_data'] : false;
+                    if (is_array($fields) && isset($fields['value']) && isset($fields['label'])) {
+                        return $this->_toFlatArray($options, $fields['value'], $fields['label']);
+                    }
+                    return $this->_toFlatArray($options);
+                }
+                return false;
+            }
+
+            // Magento fallback
+            if (method_exists($model, 'toOptionArray')) {
+                return $this->_toFlatArray($model->toOptionArray());
+            } elseif (method_exists($model, 'getOptionArray')) {
+                return $this->_toFlatArray($model->getOptionArray());
+            }
+        }
+        return false;
+    }
+
+    protected function _toFlatArray($options, $value = 'value', $label = 'label')
+    {
+        if (!is_array($options)) {
+            return false;
+        }
+
+        if (!is_array(reset($options))) {
+            return $options;
+        }
+
+        if (isset($options[key($options)][$value]) && isset($options[key($options)][$label])) {
+            foreach ($options as $key => $option) {
+                $options[$option[$value]] = $option[$label];
+                unset($options[$key]);
+            }
+            return $options;
+        }
+        return false;
     }
 }
